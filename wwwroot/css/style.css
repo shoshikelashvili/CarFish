@@ -21,6 +21,13 @@
 @import url(jquery-ui.css);
 @import url(nice-select.css);
 
+
+/* Font definition*/
+@font-face{
+    font-family:"Mtavruli";
+    src:url('Mtavruli.ttf');
+}
+
 /*--------------------------------------------------------------------- skeleton ---------------------------------------------------------------------*/
 
 * {
@@ -33,12 +40,12 @@ html {
 }
 
 body {
-     color: #666666;
-     font-size: 14px;
-     font-family: poppins;
-     line-height: 1.80857;
-     font-weight: normal;
-     overflow-x: hidden;
+    color: #666666;
+    font-size: 14px;
+    font-family: Mtavruli;
+    line-height: 1.80857;
+    font-weight: normal;
+    overflow-x: hidden;
 }
 
 a {
@@ -457,8 +464,9 @@ a.readmore_bt {
 }
 
 .logo {
-     float: left;
-     position: relative;
+    float: left;
+    position: relative;
+    max-width: 50%;
 }
 
 nav.main-menu {
@@ -1597,24 +1605,28 @@ input[type="radio"] .styled:checked+label::after {
      top: 16%;
      position: relative;
 }
-.banner-main .carousel-caption h1 {
-     font-size: 65px;
-     line-height: 74px;
-     font-weight: bold;
-     color: #081b30;
-}
-.banner-main .carousel-caption p {
-     color: #ffffff;
-     padding: 9px 0px;
-     margin-bottom: 50px;
-}
+    .banner-main .carousel-caption h1 {
+        /*font-size: 65px;*/
+        font-size: 3rem;
+        /*line-height: 74px;*/
+        font-weight: bold;
+        color: #ffffff;
+    }
+    .banner-main .carousel-caption p {
+        margin: 10px 0px 10px 0px;
+        font-size: 1rem;
+        font-weight: 300;
+        line-height: 24px;
+    }
+
+
 .color {
      color: #fff;
 }
 .btn-primary {
      background: #081b30;
      border: indianred;
-     max-width: 170px;
+     max-width: 250px;
      width: 100%;
      margin-right: 10px;
      border-radius: 25px;
@@ -1633,7 +1645,8 @@ input[type="radio"] .styled:checked+label::after {
      padding-top:  90px 0px;
 }
 .titlepage {
-     padding-bottom: 50px;
+    padding-bottom: 50px;
+    text-align: center;
 }
 .titlepage h2 {
      padding: 0px 0px 0px 0px;
@@ -1645,13 +1658,13 @@ input[type="radio"] .styled:checked+label::after {
      margin-bottom: 20px;
 }
 
-.titlepage span {
-     color: #141012;
-font-size: 17px;
-line-height: 31px;
-display: block;
-font-weight: normal;
-}
+    .titlepage span {
+        color: #141012;
+        line-height: 31px;
+        display: block;
+        font-weight: normal;
+        font-size: 1.6rem;
+    }
 .clothes_main{
      width: 100%; 
      float: left;
