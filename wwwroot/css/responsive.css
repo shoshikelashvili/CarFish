@@ -122,6 +122,7 @@
     .menu-area-main {
         height: 290px;
         overflow-y: auto;
+        display:none;
     }
     .mean-container .mean-nav ul li a.mean-expand {
         top: 0;
@@ -276,7 +277,15 @@ width: 55%;
     .last {display: none;}
     .carousel-caption {display: none;} 
 .header {padding-top: 30px;}
-.logo {float: inherit; padding-bottom: 15px; text-align: center;}
+    .logo {
+        float: inherit;
+        padding-bottom: 15px;
+        text-align: center;
+        width: 30%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
 .btn-primary {max-width: 126px;
 margin-right: 2px;
 font-size: 14px;}
@@ -309,7 +318,7 @@ line-height: 38px;}
 
 #main_slider a.carousel-control-prev {
     position: absolute;
-    left: 180px;
+    left: 165px;
     top: 80%;    
     transform: rotateY(180deg);
 }
