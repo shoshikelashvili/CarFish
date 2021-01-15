@@ -208,13 +208,17 @@ button {
      cursor: pointer;
 }
 
+#plant{
+    padding-top:50px;
+}
+
 .full {
      float: left;
      width: 100%;
 }
 
 .layout_padding {
-     padding-top: 90px;
+/*     padding-top: 90px;*/
      padding-bottom: 90px;
 }
 
@@ -1645,7 +1649,7 @@ input[type="radio"] .styled:checked+label::after {
      padding-top:  90px 0px;
 }
 .titlepage {
-    padding-bottom: 50px;
+/*    padding-bottom: 50px;*/
     text-align: center;
 }
 .titlepage h2 {
@@ -1668,9 +1672,9 @@ input[type="radio"] .styled:checked+label::after {
 .clothes_main{
      width: 100%; 
      float: left;
-     background-color: #081b30;
+/*     background-color: #081b30;*/
      height: auto;
-     padding: 60px 0px;
+/*     padding: 60px 0px;*/
 
 }
 .plants .plants-box {
@@ -1699,7 +1703,7 @@ input[type="radio"] .styled:checked+label::after {
 }
 .about {
      background: #ffff;
-     padding-top: 90px;
+/*     padding-top: 90px;*/
 }
 
 .about_text{ width: 100%; float: left;  }
@@ -2339,14 +2343,14 @@ line-height: 30px;
      padding: 0px;
 }
 
-.contact_us_2{
-     width: 100%; 
-     float: left;
-     background-image: url(../images/contact-banner.png);
-     height: auto;  
-     padding-top: 100px;
-     padding-bottom: 100px;
-     background-size: cover;
+.contact_us_2 {
+    width: 100%;
+    float: left;
+    background-image: url(../images/contact-banner.png);
+    height: auto;
+    padding-top: 30px;
+    padding-bottom: 100px;
+    background-size: cover;
 }
 
 .soc_text{
@@ -2362,6 +2366,9 @@ line-height: 30px;
      color: #fff;
 }
 
+.soc_text img{
+    max-width: 50%;
+}
 .email_btn {
     width: 100%;
     float: left;
@@ -2419,12 +2426,13 @@ line-height: 30px;
      border-bottom: 2px solid #136af8;
      color: #fff;
 }
-.main{
-    width: 9%;
+.main {
+    width: 40%;
     margin: 0 auto;
     text-align: center;
     margin-top: 40px;
- }
+    padding-bottom: 1rem;
+}
 
  .address_2{
      width: 100%;
@@ -2460,7 +2468,7 @@ line-height: 30px;
  }
   .menu_text li{
      float: left;
-     padding-left: 50px;
+     padding-left: 123px;
      color: #fff;
   }
 
@@ -2510,6 +2518,7 @@ line-height: 30px;
 height: 60px;
 border-radius: 10px;
 }
+
 
 .header_main{
      width: 100%;
