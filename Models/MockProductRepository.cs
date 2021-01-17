@@ -1,0 +1,33 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace CarFish.Models
+{
+    public class MockProductRepository: IProductRepository
+    {
+        private readonly ICategoryRepository _categoryRepository = new MockCategoryRepository();
+
+        public IEnumerable<Product> AllProducts =>
+            new List<Product>
+            {
+                new Product{ ProductId=1, Name="ელექტრო ნასოსი", Price = 12, ShortDescription= "ელექტრო ნასოსი მოკლედ"},
+                new Product{ ProductId=1, Name="ჩაიდანი", Price = 14, ShortDescription= "ჩაიდანი მოკლედ"},
+                new Product{ ProductId=1, Name="ანკესი", Price = 16, ShortDescription= "ანკესი მოკლედ"}
+            };
+
+        public IEnumerable<Product> GetRandomProducts =>
+            new List<Product>
+            {
+                new Product{ ProductId=1, Name="მანქანის გადასაფარებელი", Price = 12, ShortDescription= "მანქანის 'ჩიხოლები' გვაქვს ორ ფერში ლურჯში და ნაცრისფერში", ImageThumbnailUrl="https://i.imgur.com/jDlwQfT.png"},
+                new Product{ ProductId=1, Name="ჩაიდანი", Price = 14, ShortDescription= "ჩაიდანი მოკლედ რაღაც ინფორმაცია", ImageThumbnailUrl="https://i.imgur.com/jDlwQfT.png"},
+                new Product{ ProductId=1, Name="ანკესი", Price = 16, ShortDescription= "ანკესი მოკლედ", ImageThumbnailUrl="https://i.imgur.com/jDlwQfT.png"}
+            };
+
+        public Product GetProductById(int productId)
+        {
+            return AllProducts.FirstOrDefault(p => p.ProductId == productId);
+        }
+    }
+}

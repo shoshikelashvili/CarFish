@@ -1,8 +1,8 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-    string curYear = DateTime.Now.Year.ToString();
+﻿@model CarFish.ViewModels.HomePageViewModel
+@{
+    ViewData["Title"] = "Home";
 }
-@section styles{
+@section Styles{
     <!-- basic -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -34,39 +34,39 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
 }
 
-<!-- header -->
-<header class="section">
-    <!-- header inner -->
-    <div class="header">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
-                    <div class="full">
-                        <div class="center-desk">
-                            <div class="logo"> <a href="index.html"><img src="~/img/logo.png" alt="#"></a> </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
-                    <div class="menu-area">
-                        <div class="limit-box">
-                            <nav class="main-menu">
-                                <ul class="menu-area-main">
-                                    <li> <a href="index.html">მთავარი</a> </li>
-                                    <li> <a href="about.html">პროდუქტები</a> </li>
-                                    <li><a href="testmonial.html">დაგვიკავშირდით</a></li>
-                                    <li class="last"><a href="#"><img src="~/img/search_icon.png" alt="icon" /></a></li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- end header inner -->
-</header>
-<!-- end header -->
+@section Scripts
+{
+    <!-- Javascript files-->
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/jquery-3.0.0.min.js"></script>
+    <script src="~/js/plugin.js"></script>
+    <!-- sidebar -->
+    <script src="~/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/js/custom.js"></script>
+    <!-- javascript -->
+    <script src="~/js/owl.carousel.js"></script>
+    <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".fancybox").fancybox({
+                openEffect: "none",
+                closeEffect: "none"
+            });
+
+            $(".zoom").hover(function () {
+
+                $(this).addClass('transition');
+            }, function () {
+
+                $(this).removeClass('transition');
+            });
+        });
+
+    </script>
+}
+
 <section>
     <div id="main_slider" class="section carousel slide banner-main" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -75,63 +75,28 @@
             <li data-target="#main_slider" data-slide-to="2"></li>
         </ol>
         <div class="carousel-inner">
-            <div class="carousel-item active">
-                <div class="container">
-                    <div class="row marginii">
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                            <div class="carousel-caption ">
-                                <h1>მანქანის გადასაფარებელი</h1>
-                                <p class="productDescription">მანქანის "ჩიხოლები" გვაქვს ორ ფერში ლურჯში და ნაცრისფერში.</p>
-                                <p class="productPrice">ფასი: X ლარი</p>
-                                <a class="btn btn-lg btn-primary" href="#" role="button">მეტი ინფორმაცია</a>
+            @for (int i = 0; i < Model.Products.Count(); i++)
+            {
+                <div class="@("carousel-item" + (i == 0 ? " active" : ""))">
+                    <div class="container">
+                        <div class="row marginii">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                <div class="carousel-caption ">
+                                    <h1>@Model.Products.ElementAt(i).Name</h1>
+                                    <p class="productDescription">@Model.Products.ElementAt(i).ShortDescription</p>
+                                    <p class="productPrice">ფასი: @Model.Products.ElementAt(i).Price ლარი</p>
+                                    <a class="btn btn-lg btn-primary" href="#" role="button">მეტი ინფორმაცია</a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                            <div class="img-box">
-                                <figure><img src="~/img/product.png" alt="img" /></figure>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @*<div class="carousel-item">
-                <div class="container">
-                    <div class="row marginii">
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                            <div class="carousel-caption ">
-                                <h1>მანქანის გადასაფარებელი</h1>
-                                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour</p>
-                                <a class="btn btn-lg btn-primary" href="#" role="button">Buy Now</a>
-                                <a class="btn btn-lg btn-primary" href="about.html" role="button">About </a>
-                            </div>
-                        </div>
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                            <div class="img-box">
-                                <figure><img src="~/img/product.png" alt="img" /></figure>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                <div class="img-box">
+                                    <figure><img src="@Model.Products.ElementAt(i).ImageThumbnailUrl" alt="img" /></figure>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="carousel-item">
-                <div class="container">
-                    <div class="row marginii">
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                            <div class="carousel-caption ">
-                                <h1>მანქანის გადასაფარებელი</h1>
-                                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour</p>
-                                <a class="btn btn-lg btn-primary" href="#" role="button">Buy Now</a>
-                                <a class="btn btn-lg btn-primary" href="about.html" role="button">About </a>
-                            </div>
-                        </div>
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                            <div class="img-box">
-                                <figure><img src="~/img/product.png" alt="img" /></figure>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>*@
+            }
         </div>
         <a class="carousel-control-prev" href="#main_slider" role="button" data-slide="prev">
             <i class='fa fa-angle-left'></i>
@@ -155,57 +120,57 @@
     </div>
 </div>
 <div class="clothes_main section ">
-          <div class="container">
-            <div class="row">
-               <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                  <div class="sport_product">
-                     <figure><img src="~/img/product.png" alt="img"/></figure>
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                <div class="sport_product">
+                    <figure><img src="~/img/product.png" alt="img" /></figure>
                     <h3> <strong class="price_text">₾ფასი</strong></h3>
-                     <h4>basket ball</h4>
-                  </div>
-               </div>
-               <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 ">
-                  <div class="sport_product">
-                     <figure><img src="~/img/product.png" alt="img"/></figure>
-                    <h3> <strong class="price_text">₾ფასი</strong></h3>
-                     <h4> T-Shirt</h4>
-                  </div>
-               </div>
-               <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 ">
-                  <div class="sport_product">
-                     <figure><img src="~/img/product.png" alt="img"/></figure>
-                     <h3> <strong class="price_text">₾ფასი</strong></h3>
-                     <h4>Game</h4>
-                  </div>
-               </div>
-    
-        
-       
-         
-               <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                  <div class="sport_product">
-                     <figure><img src="~/img/product.png" alt="img"/></figure>
-                   <h3> <strong class="price_text">₾ფასი</strong></h3>
-                     <h4>basket ball</h4>
-                  </div>
-               </div>
-               <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 ">
-                  <div class="sport_product">
-                     <figure><img src="~/img/product.png" alt="img"/></figure>
-                    <h3> <strong class="price_text">₾ფასი</strong></h3>
-                     <h4>T-Shirt</h4>
-                  </div>
-               </div>
-               <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 ">
-                  <div class="sport_product">
-                     <figure><img src="~/img/product.png" alt="img"/></figure>
-                    <h3> <strong class="price_text">₾ფასი</strong></h3>
-                     <h4>Game</h4>
-                  </div>
-               </div>
-             </div>
+                    <h4>basket ball</h4>
+                </div>
             </div>
-           </div>
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 ">
+                <div class="sport_product">
+                    <figure><img src="~/img/product.png" alt="img" /></figure>
+                    <h3> <strong class="price_text">₾ფასი</strong></h3>
+                    <h4> T-Shirt</h4>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 ">
+                <div class="sport_product">
+                    <figure><img src="~/img/product.png" alt="img" /></figure>
+                    <h3> <strong class="price_text">₾ფასი</strong></h3>
+                    <h4>Game</h4>
+                </div>
+            </div>
+
+
+
+
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                <div class="sport_product">
+                    <figure><img src="~/img/product.png" alt="img" /></figure>
+                    <h3> <strong class="price_text">₾ფასი</strong></h3>
+                    <h4>basket ball</h4>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 ">
+                <div class="sport_product">
+                    <figure><img src="~/img/product.png" alt="img" /></figure>
+                    <h3> <strong class="price_text">₾ფასი</strong></h3>
+                    <h4>T-Shirt</h4>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 ">
+                <div class="sport_product">
+                    <figure><img src="~/img/product.png" alt="img" /></figure>
+                    <h3> <strong class="price_text">₾ფასი</strong></h3>
+                    <h4>Game</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
       </div>
 <!-- end plant -->
 
@@ -253,88 +218,3 @@
         </div>
     </div>
 </div>
-
-
-<div id="footer" class="Address layout_padding">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="titlepage">
-                    <div class="main">
-                        <h1 class="address_text">საკონტაქტო ინფორმაცია</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="address_2">
-            <div class="row">
-                <div class="col-sm-12 col-md-12 col-lg-4">
-                    <div class="site_info">
-                        <span class="info_icon"><img src="~/img/map-icon.png" /></span>
-                        <span style="margin-top: 14px;font-size: 1.2rem;">მოსკოვის გამზირი</span>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-12 col-lg-4">
-                    <div class="site_info">
-                        <span class="info_icon"><img src="~/img/phone-icon.png" /></span>
-                        <span style="margin-top: 14px;font-size: 1.2rem;">555 186 000</span>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-12 col-lg-4">
-                    <div class="site_info">
-                        <span class="info_icon"><img src="~/img/email-icon.png" /></span>
-                        <span style="margin-top: 14px;font-size: 1.2rem">demo@gmail.com</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="menu_main">
-        <div class="menu_text">
-            <ul>
-                <li class="active"><a href="#">მთავარი</a></li>
-                <li><a href="about.html">პროდუქტები</a></li>
-                <li><a href="testmonial.html">დაგვიკავშირდით</a></li>
-            </ul>
-        </div>
-    </div>
-</div>
-    </div>
-
-<!-- end Contact Us-->
-<!-- footer start-->
-<div id="plant" class="footer layout_padding">
-    <div class="container">
-        <p>© @curYear ყველა უფლება დაცულია</a></p>
-    </div>
-</div>
-
-<!-- Javascript files-->
-<script src="~/js/jquery.min.js"></script>
-<script src="~/js/popper.min.js"></script>
-<script src="~/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/jquery-3.0.0.min.js"></script>
-<script src="~/js/plugin.js"></script>
-<!-- sidebar -->
-<script src="~/js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="~/js/custom.js"></script>
-<!-- javascript -->
-<script src="~/js/owl.carousel.js"></script>
-<script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $(".fancybox").fancybox({
-            openEffect: "none",
-            closeEffect: "none"
-        });
-
-        $(".zoom").hover(function () {
-
-            $(this).addClass('transition');
-        }, function () {
-
-            $(this).removeClass('transition');
-        });
-    });
-
-</script> 
