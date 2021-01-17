@@ -1,8 +1,9 @@
-﻿@model CarFish.ViewModels.HomePageViewModel
+﻿@model HomePageViewModel
 @{
     ViewData["Title"] = "Home";
 }
-@section Styles{
+@section Styles
+{
     <!-- basic -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <!-- site metas -->
-    <title>Sock</title>
+    <title>CarFish</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -29,9 +30,6 @@
     <link rel="stylesheet" href="~/css/owl.carousel.min.css">
     <link rel="stylesheet" href="~/css/owl.theme.default.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
 }
 
 @section Scripts
@@ -75,22 +73,22 @@
             <li data-target="#main_slider" data-slide-to="2"></li>
         </ol>
         <div class="carousel-inner">
-            @for (int i = 0; i < Model.Products.Count(); i++)
+            @for (int i = 0; i < Model.FeaturedProducts.Count(); i++)
             {
                 <div class="@("carousel-item" + (i == 0 ? " active" : ""))">
                     <div class="container">
                         <div class="row marginii">
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                 <div class="carousel-caption ">
-                                    <h1>@Model.Products.ElementAt(i).Name</h1>
-                                    <p class="productDescription">@Model.Products.ElementAt(i).ShortDescription</p>
-                                    <p class="productPrice">ფასი: @Model.Products.ElementAt(i).Price ლარი</p>
+                                    <h1>@Model.FeaturedProducts.ElementAt(i).Name</h1>
+                                    <p class="productDescription">@Model.FeaturedProducts.ElementAt(i).ShortDescription</p>
+                                    <p class="productPrice">ფასი: @Model.FeaturedProducts.ElementAt(i).Price ლარი</p>
                                     <a class="btn btn-lg btn-primary" href="#" role="button">მეტი ინფორმაცია</a>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                 <div class="img-box">
-                                    <figure><img src="@Model.Products.ElementAt(i).ImageThumbnailUrl" alt="img" /></figure>
+                                    <figure><img src="@Model.FeaturedProducts.ElementAt(i).ImageThumbnailUrl" alt="img" /></figure>
                                 </div>
                             </div>
                         </div>
@@ -122,52 +120,16 @@
 <div class="clothes_main section ">
     <div class="container">
         <div class="row">
-            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                <div class="sport_product">
-                    <figure><img src="~/img/product.png" alt="img" /></figure>
-                    <h3> <strong class="price_text">₾ფასი</strong></h3>
-                    <h4>basket ball</h4>
+            @foreach (var product in Model.RandomProducts)
+            {
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                    <div class="sport_product">
+                        <figure><img src="@product.ImageThumbnailUrl" alt="img" /></figure>
+                        <h3> <strong class="price_text">₾@product.Price</strong></h3>
+                        <h4>@product.Name</h4>
+                    </div>
                 </div>
-            </div>
-            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 ">
-                <div class="sport_product">
-                    <figure><img src="~/img/product.png" alt="img" /></figure>
-                    <h3> <strong class="price_text">₾ფასი</strong></h3>
-                    <h4> T-Shirt</h4>
-                </div>
-            </div>
-            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 ">
-                <div class="sport_product">
-                    <figure><img src="~/img/product.png" alt="img" /></figure>
-                    <h3> <strong class="price_text">₾ფასი</strong></h3>
-                    <h4>Game</h4>
-                </div>
-            </div>
-
-
-
-
-            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                <div class="sport_product">
-                    <figure><img src="~/img/product.png" alt="img" /></figure>
-                    <h3> <strong class="price_text">₾ფასი</strong></h3>
-                    <h4>basket ball</h4>
-                </div>
-            </div>
-            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 ">
-                <div class="sport_product">
-                    <figure><img src="~/img/product.png" alt="img" /></figure>
-                    <h3> <strong class="price_text">₾ფასი</strong></h3>
-                    <h4>T-Shirt</h4>
-                </div>
-            </div>
-            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 ">
-                <div class="sport_product">
-                    <figure><img src="~/img/product.png" alt="img" /></figure>
-                    <h3> <strong class="price_text">₾ფასი</strong></h3>
-                    <h4>Game</h4>
-                </div>
-            </div>
+            }
         </div>
     </div>
 </div>

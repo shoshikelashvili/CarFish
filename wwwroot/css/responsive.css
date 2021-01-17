@@ -74,6 +74,10 @@
     .mean-container .mean-nav ul li li li a {
         width: 100%;
     }
+
+    .menu-area.mean-container{
+        display:none;
+    }
     .header-search {
         padding: 15px 0px;
     }
@@ -128,6 +132,10 @@
         top: 0;
     }
 
+    .menu-area.mean-container {
+        display: none;
+    }
+
     .soc_text {font-size: 124px;}
     .main { width: 40%;}
     .info_icon { min-width: 13%;}
@@ -155,6 +163,7 @@ width: 30%;
     }
     .email_btn { padding: 41px;}
     .menu_main { width: 55%;}
+
 
 
 }
@@ -372,6 +381,14 @@ font-size: 16px;
 }
 .menu-bottom {
     margin-bottom: 45px;
+}
+
+    .menu-area.mean-container {
+        display: none;
+    }
+
+.mean-bar{
+    display:none;
 }
 ul.link li {
 

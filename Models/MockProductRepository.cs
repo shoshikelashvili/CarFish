@@ -7,8 +7,6 @@ namespace CarFish.Models
 {
     public class MockProductRepository: IProductRepository
     {
-        private readonly ICategoryRepository _categoryRepository = new MockCategoryRepository();
-
         public IEnumerable<Product> AllProducts =>
             new List<Product>
             {
@@ -17,12 +15,23 @@ namespace CarFish.Models
                 new Product{ ProductId=1, Name="ანკესი", Price = 16, ShortDescription= "ანკესი მოკლედ"}
             };
 
-        public IEnumerable<Product> GetRandomProducts =>
+        public IEnumerable<Product> GetFeaturedProducts =>
             new List<Product>
             {
                 new Product{ ProductId=1, Name="მანქანის გადასაფარებელი", Price = 12, ShortDescription= "მანქანის 'ჩიხოლები' გვაქვს ორ ფერში ლურჯში და ნაცრისფერში", ImageThumbnailUrl="https://i.imgur.com/jDlwQfT.png"},
-                new Product{ ProductId=1, Name="ჩაიდანი", Price = 14, ShortDescription= "ჩაიდანი მოკლედ რაღაც ინფორმაცია", ImageThumbnailUrl="https://i.imgur.com/jDlwQfT.png"},
-                new Product{ ProductId=1, Name="ანკესი", Price = 16, ShortDescription= "ანკესი მოკლედ", ImageThumbnailUrl="https://i.imgur.com/jDlwQfT.png"}
+                new Product{ ProductId=1, Name="ჩაიდანი", Price = 14, ShortDescription= "ჩაიდანი მოკლედ რაღაც ინფორმაცია", ImageThumbnailUrl="https://i.imgur.com/jM45dWU.png"},
+                new Product{ ProductId=1, Name="ანკესი", Price = 16, ShortDescription= "ანკესი მოკლედ", ImageThumbnailUrl="https://i.imgur.com/AIwoQYN.png"}
+            };
+
+        public IEnumerable<Product> GetRecentProducts =>
+            new List<Product>
+            {
+                new Product{ ProductId=1, Name="მანქანის გადასაფარებელი", Price = 12, ShortDescription= "მანქანის 'ჩიხოლები' გვაქვს ორ ფერში ლურჯში და ნაცრისფერში", ImageThumbnailUrl="https://i.imgur.com/jDlwQfT.png", IsFeatured=true},
+                new Product{ ProductId=1, Name="ჩაიდანი", Price = 14, ShortDescription= "ჩაიდანი მოკლედ რაღაც ინფორმაცია", ImageThumbnailUrl="https://i.imgur.com/jM45dWU.png",IsFeatured=true},
+                new Product{ ProductId=1, Name="ანკესი", Price = 16, ShortDescription= "ანკესი მოკლედ", ImageThumbnailUrl="https://i.imgur.com/AIwoQYN.png",IsFeatured=true},
+                new Product{ ProductId=1, Name="მანქანის გადასაფარებელი", Price = 12, ShortDescription= "მანქანის 'ჩიხოლები' გვაქვს ორ ფერში ლურჯში და ნაცრისფერში", ImageThumbnailUrl="https://i.imgur.com/jDlwQfT.png"},
+                new Product{ ProductId=1, Name="ჩაიდანი", Price = 14, ShortDescription= "ჩაიდანი მოკლედ რაღაც ინფორმაცია", ImageThumbnailUrl="https://i.imgur.com/jM45dWU.png"},
+                new Product{ ProductId=1, Name="ანკესი", Price = 16, ShortDescription= "ანკესი მოკლედ", ImageThumbnailUrl="https://i.imgur.com/AIwoQYN.png"}
             };
 
         public Product GetProductById(int productId)

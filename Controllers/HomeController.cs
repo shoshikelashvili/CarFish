@@ -20,19 +20,17 @@ namespace CarFish.Controllers
         //}
 
         private readonly IProductRepository _productRepository;
-        private readonly ICategoryRepository _categoryRepository;
 
-        public HomeController(IProductRepository productRepository, ICategoryRepository categoryRepository)
+        public HomeController(IProductRepository productRepository)
         {
             _productRepository = productRepository;
-            _categoryRepository = categoryRepository;
         }
 
         public IActionResult Index()
         {
             HomePageViewModel homePageViewModel = new HomePageViewModel();
-            homePageViewModel.Products = _productRepository.GetRandomProducts;
-            homePageViewModel.Categories = _categoryRepository.AllCategories;
+            homePageViewModel.FeaturedProducts = _productRepository.GetFeaturedProducts;
+            homePageViewModel.RandomProducts = _productRepository.GetRecentProducts;
             return View(homePageViewModel);
         }
 

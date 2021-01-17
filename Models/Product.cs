@@ -24,7 +24,5 @@ namespace CarFish.Models
 
         public bool IsFeatured { get; set; }
 
-        public Category CategoryId { get; set; }
-
     }
 }
