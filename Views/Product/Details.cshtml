@@ -1,0 +1,79 @@
+﻿@model DetailsPageViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@section Styles
+{
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="~/css/details/style.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="~/css/details/responsive.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="~/css/details/custom.css">
+}
+
+@section Scripts
+{
+    <!-- ALL JS FILES -->
+    <script src="~/js/details/jquery-3.2.1.min.js"></script>
+    <script src="~/js/details/popper.min.js"></script>
+    <script src="~/js/details/bootstrap.min.js"></script>
+    <!-- ALL PLUGINS -->
+    <script src="~/js/details/jquery.superslides.min.js"></script>
+    <script src="~/js/details/bootstrap-select.js"></script>
+    <script src="~/js/details/inewsticker.js"></script>
+    <script src="~/js/details/bootsnav.js."></script>
+    <script src="~/js/details/images-loded.min.js"></script>
+    <script src="~/js/details/isotope.min.js"></script>
+    <script src="~/js/details/owl.carousel.min.js"></script>
+    <script src="~/js/details/baguetteBox.min.js"></script>
+    <script src="~/js/details/form-validator.min.js"></script>
+    <script src="~/js/details/contact-form-script.js"></script>
+    <script src="~/js/details/custom.js"></script>
+}
+
+<!-- Start Shop Detail  -->
+<div class="shop-detail-box-main">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-5 col-lg-5 col-md-6">
+                <div id="carousel-example-1" class="single-product-slider carousel slide" data-ride="carousel">
+                    <div class="carousel-inner" role="listbox">
+                        @for (int i = 0; i < Model.images.Count(); i++)
+                        {
+                            <div class="@("carousel-item" + (i == 0 ? " active" : ""))"> <img class="d-block w-100" src="@Model.images.ElementAt(i).ImageURL" alt="First slide"> </div>
+                        }
+                        </div>
+                    <a class="carousel-control-prev" href="#carousel-example-1" role="button" data-slide="prev">
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="sr-onl"><</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carousel-example-1" role="button" data-slide="next">
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                        <span class="sr-onl">></span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-xl-7 col-lg-7 col-md-6">
+                <div class="single-product-details">
+                    <h2>@Model.product.Name</h2>
+                    <h5>₾@Model.product.Price</h5>
+                    <p class="available-stock"><span> მარაგში: <a href="#"> @(Model.product.InStock ? "არის" : "არ არის")</a></span>
+                    <p>
+                        <h4>აღწერა</h4>
+                    <p>
+                        @Model.product.LongDescription
+                    </p>
+
+                    <div class="price-box-bar">
+                        <div class="cart-and-bay-btn">
+                            <a class="btn hvr-hover" data-fancybox-close="" href="#">კალათაში დამატება</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

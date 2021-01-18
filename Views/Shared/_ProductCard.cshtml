@@ -1,0 +1,11 @@
+﻿@model Product
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+    <div class="sport_product">
+        <a class="redirect_section" asp-controller="Product" asp-action="Details" asp-route-id="@Model.ProductId"><figure><img src="@Model.ImageThumbnailUrl" alt="img" /></figure></a>
+        <h3> <strong class="price_text">₾@Model.Price</strong></h3>
+        <h4>@Model.Name</h4>
+    </div>
+</div>

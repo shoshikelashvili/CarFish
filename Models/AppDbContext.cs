@@ -13,6 +13,7 @@ namespace CarFish.Models
 
         }
 
+        public DbSet<Images> Images { get; set; }
         public DbSet<Product> Products { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -28,7 +29,37 @@ namespace CarFish.Models
                 Price = 12,
                 ShortDescription = "მანქანის 'ჩიხოლები' გვაქვს ორ ფერში ლურჯში და ნაცრისფერში",
                 ImageThumbnailUrl = "https://i.imgur.com/jDlwQfT.png",
-                IsFeatured = true
+                LongDescription = "მანქანის 'ჩიხოლები' გვაქვს ორ ფერში ლურჯში და ნაცრისფერში ლორემ იპსუმ",
+                IsFeatured = true,
+                InStock = true,
+            });
+
+            modelBuilder.Entity<Images>().HasData(new Images
+            {
+                ID = 1,
+                ImageURL = "https://i.imgur.com/APSUSkV.jpg",
+                ProductID = 1
+            });
+
+            modelBuilder.Entity<Images>().HasData(new Images
+            {
+                ID = 2,
+                ImageURL = "https://i.imgur.com/FSTeMK2.jpg",
+                ProductID = 1
+            });
+
+            modelBuilder.Entity<Images>().HasData(new Images
+            {
+                ID = 3,
+                ImageURL = "https://i.imgur.com/qKxxqUb.jpg",
+                ProductID = 1
+            });
+
+            modelBuilder.Entity<Images>().HasData(new Images
+            {
+                ID = 4,
+                ImageURL = "https://i.imgur.com/QfIRm5K.jpg",
+                ProductID = 1
             });
 
             modelBuilder.Entity<Product>().HasData(new Product
@@ -38,7 +69,10 @@ namespace CarFish.Models
                 Price = 14,
                 ShortDescription = "ჩაიდანი მოკლედ რაღაც ინფორმაცია",
                 ImageThumbnailUrl = "https://i.imgur.com/jM45dWU.png",
-                IsFeatured = true
+                LongDescription = "მანქანის 'ჩიხოლები' გვაქვს ორ ფერში ლურჯში და ნაცრისფერში ლორემ იპსუმ",
+                IsFeatured = true,
+                InStock = true,
+
             });
 
             modelBuilder.Entity<Product>().HasData(new Product
@@ -48,8 +82,10 @@ namespace CarFish.Models
                 Price = 16,
                 ShortDescription = "ანკესი მოკლედ",
                 ImageThumbnailUrl = "https://i.imgur.com/AIwoQYN.png",
-                IsFeatured = true
-            });
+                LongDescription = "მანქანის 'ჩიხოლები' გვაქვს ორ ფერში ლურჯში და ნაცრისფერში ლორემ იპსუმ",
+                IsFeatured = true,
+                InStock = true,
+            });;
 
             modelBuilder.Entity<Product>().HasData(new Product
             {
@@ -58,7 +94,9 @@ namespace CarFish.Models
                 Price = 12,
                 ShortDescription = "მანქანის 'ჩიხოლები' გვაქვს ორ ფერში ლურჯში და ნაცრისფერში",
                 ImageThumbnailUrl = "https://i.imgur.com/jDlwQfT.png",
-                IsFeatured = true
+                LongDescription = "მანქანის 'ჩიხოლები' გვაქვს ორ ფერში ლურჯში და ნაცრისფერში ლორემ იპსუმ",
+                IsFeatured = true,
+                InStock = true,
             });
 
             modelBuilder.Entity<Product>().HasData(new Product
@@ -68,7 +106,9 @@ namespace CarFish.Models
                 Price = 14,
                 ShortDescription = "ჩაიდანი მოკლედ რაღაც ინფორმაცია",
                 ImageThumbnailUrl = "https://i.imgur.com/jM45dWU.png",
-                IsFeatured = true
+                LongDescription = "მანქანის 'ჩიხოლები' გვაქვს ორ ფერში ლურჯში და ნაცრისფერში ლორემ იპსუმ",
+                IsFeatured = true,
+                InStock = true,
             });
 
             modelBuilder.Entity<Product>().HasData(new Product
@@ -78,7 +118,21 @@ namespace CarFish.Models
                 Price = 16,
                 ShortDescription = "ანკესი მოკლედ",
                 ImageThumbnailUrl = "https://i.imgur.com/AIwoQYN.png",
-                IsFeatured = true
+                LongDescription = "მანქანის 'ჩიხოლები' გვაქვს ორ ფერში ლურჯში და ნაცრისფერში ლორემ იპსუმ",
+                IsFeatured = true,
+                InStock = true,
+            });
+
+            modelBuilder.Entity<Product>().HasData(new Product
+            {
+                ProductId = 7,
+                Name = "მანქანის გადასაფარებელი",
+                Price = 12,
+                ShortDescription = "მანქანის 'ჩიხოლები' გვაქვს ორ ფერში ლურჯში და ნაცრისფერში",
+                ImageThumbnailUrl = "https://i.imgur.com/jDlwQfT.png",
+                LongDescription = "მანქანის 'ჩიხოლები' გვაქვს ორ ფერში ლურჯში და ნაცრისფერში ლორემ იპსუმ",
+                IsFeatured = true,
+                InStock = true,
             });
         }
     }

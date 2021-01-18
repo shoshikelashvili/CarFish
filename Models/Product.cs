@@ -7,6 +7,10 @@ namespace CarFish.Models
 {
     public class Product
     {
+        public Product()
+        {
+            AllImages = new List<Images>();
+        }
         public int ProductId { get; set; }
         public string Name { get; set; }
 
@@ -23,6 +27,8 @@ namespace CarFish.Models
         public bool InStock { get; set; }
 
         public bool IsFeatured { get; set; }
+
+        public List<Images> AllImages { get; set; }
 
     }
 }

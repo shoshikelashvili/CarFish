@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Product>
+@{
+    ViewData["Title"] = "List";
+}
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/details/custom.css">
+}
+
+<!-- plant -->
+<div id="plant" class="section  product">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="titlepage">
+                    <h2><strong class="black"> ჩვენი</strong>  პროდუქცია</h2>
+                    <span>სათევზაო ნივთების და მანქანის პერიფერიის მრავალფეროვანი არჩევანი</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clothes_main section ">
+    <div class="container">
+        <div class="row">
+            @foreach (var product in Model)
+            {
+                <partial name="_ProductCard" model="product" />
+            }
+        </div>
+    </div>
+</div>
+<!-- end plant -->

@@ -9,7 +9,6 @@ namespace CarFish.Models
     {
         IEnumerable<Product> AllProducts { get; }
         IEnumerable<Product> GetFeaturedProducts { get; }
-
         IEnumerable<Product> GetRecentProducts { get; }
         Product GetProductById(int productId);
     }

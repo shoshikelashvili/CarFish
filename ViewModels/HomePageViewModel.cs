@@ -9,6 +9,6 @@ namespace CarFish.ViewModels
     public class HomePageViewModel
     {
         public IEnumerable<Product> FeaturedProducts { get; set; }
-        public IEnumerable<Product> RandomProducts { get; set; }
+        public IEnumerable<Product> RecentProducts { get; set; }
     }
 }

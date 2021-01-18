@@ -1,0 +1,23 @@
+/** ADD YOUR AWESOME CODES HERE **/
+@font-face {
+    font-family: "Mtavruli";
+    src: url('Mtavruli.ttf');
+}
+
+.header {
+    background-color: #136af8;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+    position: relative;
+}
+#baguetteBox-overlay{
+    display:none;
+}
+
+.titlepage {
+    padding-bottom: 50px;
+}
+
+#plant {
+    padding-top: 5px;
+}
