@@ -12,17 +12,13 @@ namespace CarFish.Controllers
 {
     public class HomeController : Controller
     {
-        //private readonly ILogger<HomeController> _logger;
-
-        //public HomeController(ILogger<HomeController> logger)
-        //{
-        //    _logger = logger;
-        //}
 
         private readonly IProductRepository _productRepository;
-        public HomeController(IProductRepository productRepository)
+        private readonly ShoppingCart _shoppingCart;
+        public HomeController(IProductRepository productRepository, ShoppingCart shoppingCart)
         {
             _productRepository = productRepository;
+            _shoppingCart = shoppingCart;
         }
 
         public IActionResult Index()
@@ -30,27 +26,12 @@ namespace CarFish.Controllers
             HomePageViewModel homePageViewModel = new HomePageViewModel();
             homePageViewModel.FeaturedProducts = _productRepository.GetFeaturedProducts;
             homePageViewModel.RecentProducts = _productRepository.GetRecentProducts;
+            homePageViewModel.shoppingCartViewModel = new ShoppingCartViewModel();
+            homePageViewModel.shoppingCartViewModel.ShoppingCartItems = _shoppingCart.GetShoppingCartItems();
+            homePageViewModel.shoppingCartViewModel.ShoppingCartTotal = _shoppingCart.GetShoppingCartTotal();
             return View(homePageViewModel);
         }
 
-        //public IActionResult Details(int id)
-        //{
-        //    DetailsPageViewModel detailsPageViewModel = new DetailsPageViewModel();
-        //    detailsPageViewModel.product = _productRepository.GetProductById(id);
-        //    detailsPageViewModel.images = _imagesRepository.GetImagesByProductId(id);
-        //    if (detailsPageViewModel.product == null) return NotFound();
-        //    return View(detailsPageViewModel);
-        //}
-
-        //public IActionResult List()
-        //{
-        //    IEnumerable<Product> products = _productRepository.AllProducts;
-        //    return View(products);
-        //}
-        ////public IActionResult Privacy()
-        //{
-        //    return View();
-        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

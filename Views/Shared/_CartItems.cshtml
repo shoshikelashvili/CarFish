@@ -1,0 +1,28 @@
+﻿@model ShoppingCartViewModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<!-- Start Side Menu -->
+<div class="side" id="sidemenu">
+    <a href="#" class="close-side" id="closeslide"><i class="fa fa-times"></i></a>
+    <li class="cart-box">
+        <ul class="cart-list">
+            @if (Model.ShoppingCartItems.Any())
+            {
+                foreach (var item in Model.ShoppingCartItems)
+                {
+                    <li>
+                        <a href="#" class="photo"><img src="@item.Product.ImageThumbnailUrl" class="cart-thumb" alt="" /></a>
+                        <h6><a href="#" class="prodTitle">@item.Product.Name</a></h6>
+                        <p>@item.Amount x - <span class="price">₾@item.Product.Price</span></p>
+                    </li>
+                }
+            }
+            <li class="total">
+                <span class="float-right-updated"><strong>ჯამური ფასი</strong>: ₾@Model.ShoppingCartTotal</span>
+            </li>
+        </ul>
+    </li>
+</div>
+<!-- End Side Menu -->

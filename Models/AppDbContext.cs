@@ -16,6 +16,8 @@ namespace CarFish.Models
         public DbSet<Images> Images { get; set; }
         public DbSet<Product> Products { get; set; }
 
+        public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -16,6 +16,7 @@
     <!-- Responsive-->
     <link rel="stylesheet" href="~/css/responsive.css">
     @RenderSection("Styles", false)
+    <link rel="stylesheet" href="~/css/custom.css">
 </head>
 <body class="main-layout">
     <!-- header -->
@@ -39,7 +40,11 @@
                                         <li> <a asp-action="Index" asp-controller="Home">მთავარი</a> </li>
                                         <li> <a asp-action="List" asp-controller="Product">პროდუქტები</a> </li>
                                         <li><a href="testmonial.html">დაგვიკავშირდით</a></li>
-                                        <li class="last"><a href="#"><img src="~/img/search_icon.png" alt="icon" /></a></li>
+                                        <li class="side-menu">
+                                            <a id="carty" href="#">
+                                                <img style="max-width:9%" src="~/img/shopping-cart.png">
+                                            </a>
+                                        </li>
                                     </ul>
                                 </nav>
                             </div>
@@ -106,5 +111,6 @@
         </div>
     </div>
     @RenderSection("Scripts", required: false)
+    <script src="~/js/navbar/customNavbar.js"></script>
 </body>
 </html>

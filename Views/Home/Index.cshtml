@@ -48,6 +48,7 @@
     </script>
 }
 
+<partial name="_CartItems" model="Model.shoppingCartViewModel" />
 <section>
     <div id="main_slider" class="section carousel slide banner-main" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -105,7 +106,7 @@
         <div class="row">
             @foreach (var product in Model.RecentProducts)
             {
-                <partial name="_ProductCard"  model="product"/>
+                <partial name="_ProductCard" model="product" />
             }
         </div>
     </div>

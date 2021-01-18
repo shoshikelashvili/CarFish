@@ -1,16 +1,15 @@
-﻿using System;
-using CarFish.Models;
+﻿using CarFish.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace CarFish.ViewModels
 {
-    public class DetailsPageViewModel
+    public class ListPageViewModel
     {
-        public Product product { get; set; }
-        public IEnumerable<Images> images { get; set; }
-        
+        public IEnumerable<Product> products { get; set; }
+
         public ShoppingCartViewModel shoppingCartViewModel { get; set; }
     }
 }

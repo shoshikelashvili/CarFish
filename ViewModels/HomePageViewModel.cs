@@ -10,5 +10,6 @@ namespace CarFish.ViewModels
     {
         public IEnumerable<Product> FeaturedProducts { get; set; }
         public IEnumerable<Product> RecentProducts { get; set; }
+        public ShoppingCartViewModel shoppingCartViewModel { get; set; }
     }
 }

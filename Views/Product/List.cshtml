@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Product>
+﻿@model ListPageViewModel
 @{
     ViewData["Title"] = "List";
 }
@@ -6,6 +6,12 @@
 {
     <link rel="stylesheet" href="~/css/details/custom.css">
 }
+@section Scripts
+{
+    <script src="~/js/details/jquery-3.2.1.min.js"></script>
+}
+
+<partial name="_CartItems" model="Model.shoppingCartViewModel" />
 
 <!-- plant -->
 <div id="plant" class="section  product">
@@ -23,7 +29,7 @@
 <div class="clothes_main section ">
     <div class="container">
         <div class="row">
-            @foreach (var product in Model)
+            @foreach (var product in Model.products)
             {
                 <partial name="_ProductCard" model="product" />
             }

@@ -1,0 +1,89 @@
+﻿.badge {
+    color: white;
+}
+
+.side {
+    position: fixed;
+    overflow-y: auto;
+    top: 0;
+    right: -280px;
+    width: 280px;
+    padding: 25px 15px;
+    height: 100%;
+    display: block;
+    background-color: #222222;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    z-index: 9;
+}
+
+.side::-webkit-scrollbar{
+    display:none;
+ }
+
+    .side.on {
+        right: 0;
+    }
+
+
+        .side.on .cart-box {
+            background: #222222;
+        }
+
+#closeslide{
+    color: white;
+}
+
+#plant {
+    padding-top: 5px;
+}
+
+.cart-list .prodTitle{
+    color:white;
+}
+
+.cart-list li h6 {
+    font-size: 1.3rem;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.cart-list li p {
+   color:white;
+}
+
+.cart-list li p span{
+    color: white;
+}
+.cart-list .total{
+    color:white;
+}
+
+.cart-list {
+    background-color: #222222;
+}
+.btn btn-default hvr-hover btn-cart{
+    display:none;
+}
+
+.cart-list .total span {
+    background-color: #222222;
+}
+
+.cart-list .total {
+    text-align: left;
+    margin-top: 1rem;
+}
+
+#closeslide {
+    display: none;
+}
+
+.titlepage {
+    padding-bottom: 50px;
+    padding-top: 2rem;
+}
+
