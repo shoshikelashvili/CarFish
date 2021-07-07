@@ -5,11 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20210707142216_latestMigration.cs" />
-    <Compile Remove="Migrations\20210707142216_latestMigration.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
