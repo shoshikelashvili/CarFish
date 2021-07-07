@@ -78,10 +78,10 @@ namespace CarFish.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("InStock")
+                    b.Property<ulong>("InStock")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsFeatured")
+                    b.Property<ulong>("IsFeatured")
                         .HasColumnType("bit");
 
                     b.Property<string>("LongDescription")
@@ -214,7 +214,7 @@ namespace CarFish.Migrations
 
             modelBuilder.Entity("CarFish.Models.ShoppingCartItem", b =>
                 {
-                    b.HasOne("CarFish.Models.Product", "product")
+                    b.HasOne("CarFish.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId");
                 });

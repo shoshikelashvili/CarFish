@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MySql.Data.MySqlClient;
+
 
 namespace CarFish
 {
@@ -28,7 +30,8 @@ namespace CarFish
             services.AddHttpContextAccessor();
             services.AddSession();
 
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<AppDbContext>(options => options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IImagesRepository, ImagesRepository>();
             services.AddScoped<ShoppingCart>(sp => ShoppingCart.GetCart(sp));

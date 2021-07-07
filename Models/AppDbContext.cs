@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,11 @@ namespace CarFish.Models
         {
 
         }
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=CarFish;Trusted_Connection=True;MultipleActiveResultSets=true");
+        //}
 
         public DbSet<Images> Images { get; set; }
         public DbSet<Product> Products { get; set; }
