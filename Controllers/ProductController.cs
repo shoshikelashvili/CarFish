@@ -23,6 +23,12 @@ namespace CarFish.Controllers
             _shoppingCart = shoppingCart;
         }
 
+        public bool Test()
+        {
+            var test = _productRepository.GetProductById(2);
+            return true;
+        }
+
         public IActionResult Details(int id)
         {
             DetailsPageViewModel detailsPageViewModel = new DetailsPageViewModel();
