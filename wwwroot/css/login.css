@@ -1,0 +1,9 @@
+﻿#logout {
+    margin: auto;
+    margin-right: 0rem;
+}
+
+body > ul {
+    text-align: right;
+    margin-right: 4rem;
+}

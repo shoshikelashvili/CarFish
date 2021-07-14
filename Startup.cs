@@ -74,7 +74,7 @@ namespace CarFish
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-
+            app.UseCoreAdminCustomUrl("dashboard");
             CreateRoles(serviceProvider);
         }
 

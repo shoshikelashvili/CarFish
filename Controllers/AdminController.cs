@@ -22,17 +22,18 @@ namespace CarFish.Controllers
             this.signInManager = signInManager;
         }
 
+        [Route("admin")]
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Login()
         {
             UserLoginDto model = new UserLoginDto();
-            return View(model);
+            return View("Login");
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(UserLoginDto model)
+        public async Task<IActionResult> LoginCheck(UserLoginDto model)
         {
             if (ModelState.IsValid)
             {
@@ -40,7 +41,7 @@ namespace CarFish.Controllers
                 if (await userManager.CheckPasswordAsync(user, model.Password) == false)
                 {
                     ModelState.AddModelError("message", "Invalid credentials");
-                    return View(model);
+                    return View("Login");
                 }
 
                 var result = await signInManager.PasswordSignInAsync(model.Name, model.Password, true, false);
@@ -48,7 +49,7 @@ namespace CarFish.Controllers
                 if (result.Succeeded)
                 {
                     await userManager.AddClaimAsync(user, new Claim("UserRole", "Administrator"));
-                    return RedirectToAction("Dashboard");
+                    return Redirect("/dashboard");
                 }
                 else if (result.IsLockedOut)
                 {
@@ -57,16 +58,16 @@ namespace CarFish.Controllers
                 else
                 {
                     ModelState.AddModelError("message", "Invalid login attempt");
-                    return View(model);
+                    return View("Login");
                 }
             }
-            return View(model);
+            return View("Login");
         }
 
-        [Route("Admin")]
-        public IActionResult Index()
+        public async Task<IActionResult> Logout()
         {
-            return View();
+            await signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home", new { area = "" });
         }
     }
 }
