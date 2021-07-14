@@ -39,7 +39,9 @@ namespace CarFish
             services.AddScoped<ShoppingCart>(sp => ShoppingCart.GetCart(sp));
             services.AddControllersWithViews();
 
+
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,6 +65,8 @@ namespace CarFish
 
 
             app.UseAuthorization();
+            app.UseAuthentication();
+
 
             app.UseEndpoints(endpoints =>
             {
@@ -76,11 +80,10 @@ namespace CarFish
 
         private void CreateRoles(IServiceProvider serviceProvider)
         {
-
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
             Task<IdentityResult> roleResult;
-            string email = "someone@somewhere.com";
+            string name = "greenback";
 
             //Check that there is an Administrator role and create if not
             Task<bool> hasAdminRole = roleManager.RoleExistsAsync("Administrator");
@@ -95,16 +98,16 @@ namespace CarFish
             //Check if the admin user exists and create it if not
             //Add to the Administrator role
 
-            Task<IdentityUser> testUser = userManager.FindByEmailAsync(email);
+            Task<IdentityUser> testUser = userManager.FindByNameAsync(name);
             testUser.Wait();
 
             if (testUser.Result == null)
             {
                 IdentityUser administrator = new IdentityUser();
-                administrator.Email = email;
-                administrator.UserName = email;
-
-                Task<IdentityResult> newUser = userManager.CreateAsync(administrator, "_AStrongP@ssword!");
+                administrator.UserName = name;
+                
+                //TODO: make password/username secure
+                Task<IdentityResult> newUser = userManager.CreateAsync(administrator, "greenb@ckDOTA123");
                 newUser.Wait();
 
                 if (newUser.Result.Succeeded)

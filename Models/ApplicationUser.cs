@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace CarFish.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        public virtual string Email { get; set; }
+        [MaxLength(36)]
+        public override string Id { get; set; }
     }
 }

@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarFish.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210714001100_identity")]
-    partial class identity
+    [Migration("20210714003714_redo whole migration for identity")]
+    partial class redowholemigrationforidentity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -203,7 +203,8 @@ namespace CarFish.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(767)");
+                        .HasColumnType("varchar(85)")
+                        .HasMaxLength(85);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -214,8 +215,8 @@ namespace CarFish.Migrations
                         .HasMaxLength(256);
 
                     b.Property<string>("NormalizedName")
-                        .HasColumnType("varchar(256)")
-                        .HasMaxLength(256);
+                        .HasColumnType("varchar(85)")
+                        .HasMaxLength(85);
 
                     b.HasKey("Id");
 
@@ -230,7 +231,8 @@ namespace CarFish.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasMaxLength(85);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("text");
@@ -240,7 +242,8 @@ namespace CarFish.Migrations
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("varchar(767)");
+                        .HasColumnType("varchar(85)")
+                        .HasMaxLength(85);
 
                     b.HasKey("Id");
 
@@ -252,7 +255,8 @@ namespace CarFish.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(767)");
+                        .HasColumnType("varchar(85)")
+                        .HasMaxLength(85);
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -275,12 +279,12 @@ namespace CarFish.Migrations
                         .HasColumnType("timestamp");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasColumnType("varchar(256)")
-                        .HasMaxLength(256);
+                        .HasColumnType("varchar(85)")
+                        .HasMaxLength(85);
 
                     b.Property<string>("NormalizedUserName")
-                        .HasColumnType("varchar(256)")
-                        .HasMaxLength(256);
+                        .HasColumnType("varchar(85)")
+                        .HasMaxLength(85);
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("text");
@@ -317,7 +321,8 @@ namespace CarFish.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasMaxLength(85);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("text");
@@ -327,7 +332,8 @@ namespace CarFish.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(767)");
+                        .HasColumnType("varchar(85)")
+                        .HasMaxLength(85);
 
                     b.HasKey("Id");
 
@@ -339,17 +345,20 @@ namespace CarFish.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(767)");
+                        .HasColumnType("varchar(85)")
+                        .HasMaxLength(85);
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("varchar(767)");
+                        .HasColumnType("varchar(85)")
+                        .HasMaxLength(85);
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("text");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(767)");
+                        .HasColumnType("varchar(85)")
+                        .HasMaxLength(85);
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -361,10 +370,12 @@ namespace CarFish.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(767)");
+                        .HasColumnType("varchar(85)")
+                        .HasMaxLength(85);
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("varchar(767)");
+                        .HasColumnType("varchar(85)")
+                        .HasMaxLength(85);
 
                     b.HasKey("UserId", "RoleId");
 
@@ -376,13 +387,16 @@ namespace CarFish.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(767)");
+                        .HasColumnType("varchar(85)")
+                        .HasMaxLength(85);
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(767)");
+                        .HasColumnType("varchar(85)")
+                        .HasMaxLength(85);
 
                     b.Property<string>("Name")
-                        .HasColumnType("varchar(767)");
+                        .HasColumnType("varchar(85)")
+                        .HasMaxLength(85);
 
                     b.Property<string>("Value")
                         .HasColumnType("text");
