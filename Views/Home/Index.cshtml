@@ -48,7 +48,7 @@
     </script>
 }
 
-<partial name="_CartItems" model="Model.shoppingCartViewModel" />
+@*<partial name="_CartItems" model="Model.shoppingCartViewModel" />*@
 <section>
     <div id="main_slider" class="section carousel slide banner-main" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -72,7 +72,9 @@
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                 <div class="img-box">
-                                    <figure><img src="@Model.FeaturedProducts.ElementAt(i).ImageThumbnailUrl" alt="img" /></figure>
+                                    <a asp-controller="Product" asp-action="Details" asp-route-id="@Model.FeaturedProducts.ElementAt(i).ProductId">
+                                        <figure><img src="@Model.FeaturedProducts.ElementAt(i).ImageThumbnailUrl" alt="img" /></figure>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -110,6 +112,7 @@
             }
         </div>
     </div>
+    <a class="btn btn-lg btn-primary" asp-controller="Product" asp-action="List" role="button" id="products_link" style="margin: auto; background-color: #136af8; max-width: 16rem; display: block;">პროდუქტების გვერდი</a>
 </div>
 <!-- end plant -->
 
@@ -117,7 +120,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 ">
-                <div class="titlepage">
+                <div class="titlepage" style="padding-bottom: 0px; padding-top: 7rem;">
                     <h2><strong class="black"> დაგვიკავშირდით</strong>  ელ-ფოსტით</h2>
                 </div>
             </div>

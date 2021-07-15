@@ -39,12 +39,12 @@
                                     <ul class="menu-area-main">
                                         <li> <a asp-action="Index" asp-controller="Home">მთავარი</a> </li>
                                         <li> <a asp-action="List" asp-controller="Product">პროდუქტები</a> </li>
-                                        <li><a href="testmonial.html">დაგვიკავშირდით</a></li>
-                                        <li class="side-menu">
+                                        <li><a asp-action="ContactUs" asp-controller="Home">მიტანის პირობები</a></li>
+                                        @*<li class="side-menu">
                                             <a id="carty" href="#">
                                                 <img style="max-width:9%" src="~/img/shopping-cart.png">
                                             </a>
-                                        </li>
+                                        </li>*@
                                     </ul>
                                 </nav>
                             </div>
@@ -96,7 +96,7 @@
                 <ul>
                     <li class="active"><a asp-action="Index" asp-controller="Home">მთავარი</a></li>
                     <li><a asp-action="List" asp-controller="Product">პროდუქტები</a></li>
-                    <li><a href="testmonial.html">დაგვიკავშირდით</a></li>
+                    <li><a asp-action="ContactUs" asp-controller="Home">მიტანის პირობები</a></li>
                 </ul>
             </div>
         </div>

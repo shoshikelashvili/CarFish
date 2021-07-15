@@ -44,11 +44,11 @@ namespace CarFish.Controllers
                     return View("Login");
                 }
 
-                var result = await signInManager.PasswordSignInAsync(model.Name, model.Password, true, false);
+                var result = await signInManager.PasswordSignInAsync(model.Name, model.Password, false, false);
 
                 if (result.Succeeded)
                 {
-                    await userManager.AddClaimAsync(user, new Claim("UserRole", "Administrator"));
+                    //await userManager.AddClaimAsync(user, new Claim("UserRole", "Administrator"));
                     return Redirect("/dashboard");
                 }
                 else if (result.IsLockedOut)
