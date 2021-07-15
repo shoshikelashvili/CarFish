@@ -347,6 +347,7 @@ MigrationBackup/
 ## Visual studio for Mac
 ##
 
+**/wwwroot/lib
 
 # globs
 Makefile.in
@@ -431,3 +432,6 @@ $RECYCLE.BIN/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+**/appsettings.json
+appsettings.json
