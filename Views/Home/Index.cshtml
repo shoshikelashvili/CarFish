@@ -138,18 +138,18 @@
             </div>
             <div class="col-md-6">
                 <div class="email_btn">
-                    <form action="/action_page.php">
+                    <form asp-controller="Home" asp-action="SendMail">
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-sm" placeholder="სახელი" name="Name">
+                            <input type="text" class="form-control form-control-sm" placeholder="სახელი" name="Name" style=" color: #000000;">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-sm" placeholder="ელ-ფოსტა" name="Email">
+                            <input type="text" class="form-control form-control-sm" placeholder="ელ-ფოსტა" name="Email" style=" color: #000000;">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-sm" placeholder="მობილურის ნომერი" name="Phone">
+                            <input type="text" class="form-control form-control-sm" placeholder="მობილურის ნომერი" name="Phone" style=" color: #000000;">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-sm" placeholder="მესიჯი" name="text3">
+                            <input type="text" class="form-control form-control-sm" placeholder="მესიჯი" name="Message" style=" color: #000000;">
                         </div>
                         <div class="submit_btn">
                             <button type="submit" class="btn btn-primary" style="background: #081b30; color: #fff; padding: 11px;">გაგზავნა</button>

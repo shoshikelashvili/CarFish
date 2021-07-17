@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "ConotactUs";
+}
+
+@section Styles
+{
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="~/css/details/style.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="~/css/details/responsive.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="~/css/details/custom.css">
+
+    <!-- Leaflet bullshit-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin="" />
+
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+            crossorigin=""></script>
+}
+
+@section Scripts
+{
+    <!-- ALL JS FILES -->
+    <script src="~/js/details/jquery-3.2.1.min.js"></script>
+    <script src="~/js/details/popper.min.js"></script>
+    <script src="~/js/details/bootstrap.min.js"></script>
+    <!-- ALL PLUGINS -->
+    <script src="~/js/details/jquery.superslides.min.js"></script>
+    <script src="~/js/details/bootstrap-select.js"></script>
+    <script src="~/js/details/inewsticker.js"></script>
+    <script src="~/js/details/bootsnav.js."></script>
+    <script src="~/js/details/images-loded.min.js"></script>
+    <script src="~/js/details/isotope.min.js"></script>
+    <script src="~/js/details/owl.carousel.min.js"></script>
+    <script src="~/js/details/baguetteBox.min.js"></script>
+    <script src="~/js/details/form-validator.min.js"></script>
+    <script src="~/js/details/contact-form-script.js"></script>
+    <script src="~/js/details/custom.js"></script>
+}
+<div id="plant" class="contact_us layout_padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="titlepage" style="padding-top: 0rem;">
+                    <h2 style="text-align: center; margin-top: 15px;"><strong style="color: #111315;">თქვენი მესიჯი </strong>წარმატებით<strong style="color: #111315;"> გაიგზავნა</strong></h2>
+                    <span style="text-align: left;">უახლოეს მომავალში განვიხილავთ თქვენ მესიჯს და დაგიკავშირდებით ელ-ფოსტის ან მობილურის გამოყენებით</span>
+                </div>
+            </div>
+        </div>
+        <a class="btn btn-lg btn-primary" asp-controller="Home" asp-action="Index" role="button" style="display:block; margin:auto; margin-bottom:5rem; margin-top: 2rem;">მთავარი გვერდი</a>
+    </div>
+</div>

@@ -15,10 +15,12 @@ namespace CarFish.Controllers
 
         private readonly IProductRepository _productRepository;
         private readonly ShoppingCart _shoppingCart;
-        public HomeController(IProductRepository productRepository, ShoppingCart shoppingCart)
+        private readonly IMailService _mailService;
+        public HomeController(IProductRepository productRepository, ShoppingCart shoppingCart, IMailService mailService)
         {
             _productRepository = productRepository;
             _shoppingCart = shoppingCart;
+            _mailService = mailService;
         }
 
         public IActionResult Index()
@@ -35,6 +37,20 @@ namespace CarFish.Controllers
         public IActionResult ContactUs()
         {
             return View();
+        }
+
+        public async Task<IActionResult> SendMail([FromForm]MailRequest request)
+        {
+            try
+            {
+                await _mailService.SendEmailAsync(request);
+                return View();
+            }
+            catch(Exception ex)
+            {
+                return View("Problem");
+            }
+            
         }
 
 
