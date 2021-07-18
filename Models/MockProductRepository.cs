@@ -7,13 +7,16 @@ namespace CarFish.Models
 {
     public class MockProductRepository: IProductRepository
     {
-        public IEnumerable<Product> AllProducts =>
-            new List<Product>
+        public IEnumerable<Product> GetSinglePageProducts(int page = 1)
+        {
+            return new List<Product>
             {
                 new Product{ ProductId=1, Name="ელექტრო ნასოსი", Price = 12, ShortDescription= "ელექტრო ნასოსი მოკლედ"},
                 new Product{ ProductId=1, Name="ჩაიდანი", Price = 14, ShortDescription= "ჩაიდანი მოკლედ"},
                 new Product{ ProductId=1, Name="ანკესი", Price = 16, ShortDescription= "ანკესი მოკლედ"}
             };
+        }
+            
 
         public IEnumerable<Product> GetFeaturedProducts =>
             new List<Product>
@@ -36,7 +39,12 @@ namespace CarFish.Models
 
         public Product GetProductById(int productId)
         {
-            return AllProducts.FirstOrDefault(p => p.ProductId == productId);
+            return GetSinglePageProducts().FirstOrDefault(p => p.ProductId == productId);
+        }
+
+        public float GetMaximumProductsAmount()
+        {
+            return 2;
         }
     }
 }

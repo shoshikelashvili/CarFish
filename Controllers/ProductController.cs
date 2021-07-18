@@ -41,13 +41,17 @@ namespace CarFish.Controllers
             return View(detailsPageViewModel);
         }
 
-        public IActionResult List()
+        [HttpGet]
+        [Route("Product/List/{page?}")]
+        public IActionResult List(int page = 1)
         {
             ListPageViewModel listPageViewModel = new ListPageViewModel();
-            listPageViewModel.products = _productRepository.AllProducts;
+            listPageViewModel.products = _productRepository.GetSinglePageProducts(page);
             listPageViewModel.shoppingCartViewModel = new ShoppingCartViewModel();
             listPageViewModel.shoppingCartViewModel.ShoppingCartItems = _shoppingCart.GetShoppingCartItems();
             listPageViewModel.shoppingCartViewModel.ShoppingCartTotal = _shoppingCart.GetShoppingCartTotal();
+            listPageViewModel.page = page;
+            listPageViewModel.maxPages = _productRepository.GetMaximumProductsAmount() / 6;
             return View(listPageViewModel);
         }
     }

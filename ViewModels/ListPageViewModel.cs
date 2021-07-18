@@ -11,5 +11,9 @@ namespace CarFish.ViewModels
         public IEnumerable<Product> products { get; set; }
 
         public ShoppingCartViewModel shoppingCartViewModel { get; set; }
+
+        public int page { get; set; }
+
+        public float maxPages { get; set; }
     }
 }

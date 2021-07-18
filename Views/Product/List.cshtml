@@ -34,6 +34,28 @@
                 <partial name="_ProductCard" model="product" />
             }
         </div>
+        <div class="pagination_custom" style="margin-bottom: 3rem;     display: flex">
+            @if (Model.page != 1)
+            {
+                <a class="btn btn-lg btn-primary" asp-controller="Product" asp-action="List" asp-route-page="@(Model.page - 1)" role="button" id="previous" style=" background-color: #136af8; max-width: 16rem; display: block; margin: auto;
+    margin-left: 0;">წინა გვერდი</a>
+            }
+            @if (Model.maxPages == (int)Model.maxPages)
+            {
+                @if (Model.page != Model.maxPages)
+                {
+                    <a class="btn btn-lg btn-primary" asp-controller="Product" asp-action="List" asp-route-page="@(Model.page+1)" role="button" id="next" style="background-color: #136af8; max-width: 16rem; display: block;     margin: auto;
+    margin-right: 0;">შემდეგი გვერდი</a>
+                }
+            }
+            else {
+                @if (Model.page < Model.maxPages)
+                {
+                    <a class="btn btn-lg btn-primary" asp-controller="Product" asp-action="List" asp-route-page="@(Model.page + 1)" role="button" id="next" style="background-color: #136af8; max-width: 16rem; display: block;    margin: auto;
+    margin-right: 0;">შემდეგი გვერდი</a>
+                }
+            }
+        </div>
     </div>
 </div>
 <!-- end plant -->

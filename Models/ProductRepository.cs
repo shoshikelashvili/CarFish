@@ -13,12 +13,9 @@ namespace CarFish.Models
             _appDbContext = appDbContext;
         }
 
-        public IEnumerable<Product> AllProducts
+        public IEnumerable<Product> GetSinglePageProducts(int page = 1)
         {
-            get
-            {
-                return _appDbContext.Products;
-            }
+                return _appDbContext.Products.OrderByDescending(p => p.ProductId).Skip((page -1) * 6).Take(6);
         }
 
         public IEnumerable<Product> GetFeaturedProducts
@@ -40,6 +37,11 @@ namespace CarFish.Models
         public Product GetProductById(int productId)
         {
             return _appDbContext.Products.FirstOrDefault(p => p.ProductId == productId);
+        }
+
+        public float GetMaximumProductsAmount()
+        {
+            return _appDbContext.Products.Count(p => p.ProductId > 0);
         }
     }
 }
