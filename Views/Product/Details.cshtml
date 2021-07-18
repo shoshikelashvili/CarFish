@@ -47,15 +47,22 @@
                         {
                             <div class="@("carousel-item" + (i == 0 ? " active" : ""))"> <img class="d-block w-100" src="@Model.images.ElementAt(i).ImageURL" alt="First slide"> </div>
                         }
+                        @if (Model.images.Count() == 0)
+                        {
+                            <div class="@("carousel-item" + "active")"> <img class="d-block w-100" src="@Model.product.ImageThumbnailUrl" alt="First slide"> </div>
+                        }
                     </div>
-                    <a class="carousel-control-prev" href="#carousel-example-1" role="button" data-slide="prev">
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="sr-onl"><</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carousel-example-1" role="button" data-slide="next">
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                        <span class="sr-onl">></span>
-                    </a>
+                    @if (Model.images.Count() != 0)
+                    {
+                        <a class="carousel-control-prev" href="#carousel-example-1" role="button" data-slide="prev">
+                            <i class="fa fa-angle-left" aria-hidden="true"></i>
+                            <span class="sr-onl">&lt;</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carousel-example-1" role="button" data-slide="next">
+                            <i class="fa fa-angle-right" aria-hidden="true"></i>
+                            <span class="sr-onl">></span>
+                        </a>
+                    }
                 </div>
             </div>
             <div class="col-xl-7 col-lg-7 col-md-6">
