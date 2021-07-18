@@ -59,5 +59,17 @@ namespace CarFish.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+        [Route("404")]
+        public IActionResult PageNotFound()
+        {
+            string originalPath = "unknown";
+            if (HttpContext.Items.ContainsKey("originalPath"))
+            {
+                originalPath = HttpContext.Items["originalPath"] as string;
+            }
+            return View();
+        }
     }
 }
