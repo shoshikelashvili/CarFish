@@ -13,6 +13,8 @@ using Microsoft.Extensions.Hosting;
 using MySql.Data.MySqlClient;
 using Microsoft.AspNetCore.Identity;
 using CarFish.Model;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace CarFish
 {
@@ -33,14 +35,15 @@ namespace CarFish
 
             //services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<AppDbContext>(options => options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddCoreAdmin("Administrator");
+            services.AddCoreAdmin();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IImagesRepository, ImagesRepository>();
             services.AddScoped<ShoppingCart>(sp => ShoppingCart.GetCart(sp));
             services.AddControllersWithViews();
 
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
-            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+            //services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
 
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             services.AddTransient<IMailService, MailService>();
@@ -51,7 +54,7 @@ namespace CarFish
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             app.Use(async (ctx, next) =>
-            {
+            {   
                 await next();
 
                 if (ctx.Response.StatusCode == 404 && !ctx.Response.HasStarted)
@@ -81,9 +84,10 @@ namespace CarFish
 
             app.UseRouting();
 
-
+            app.UseCoreAdminCustomUrl("dashboard");
             app.UseAuthorization();
             app.UseAuthentication();
+
 
             
 
@@ -93,8 +97,8 @@ namespace CarFish
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-            app.UseCoreAdminCustomUrl("dashboard");
-            CreateRoles(serviceProvider);
+            
+            //CreateRoles(serviceProvider);
         }
 
         private void CreateRoles(IServiceProvider serviceProvider)
@@ -124,7 +128,7 @@ namespace CarFish
             {
                 IdentityUser administrator = new IdentityUser();
                 administrator.UserName = name;
-                
+
                 //TODO: make password/username secure
                 Task<IdentityResult> newUser = userManager.CreateAsync(administrator, "greenb@ckDOTA123");
                 newUser.Wait();

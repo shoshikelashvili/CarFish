@@ -7,19 +7,20 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using CarFish.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 namespace CarFish.Controllers
 {
     public class AdminController : Controller
     {
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly SignInManager<IdentityUser> signInManager;
+        //private readonly UserManager<IdentityUser> userManager;
+        //private readonly SignInManager<IdentityUser> signInManager;
 
-        public AdminController(UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+        public AdminController()
         {
-            this.userManager = userManager;
-            this.signInManager = signInManager;
+
         }
 
         [Route("admin")]
@@ -35,38 +36,34 @@ namespace CarFish.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> LoginCheck(UserLoginDto model)
         {
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
+            //{
+            //    var user = await userManager.FindByNameAsync(model.Name);
+            //    if (await userManager.CheckPasswordAsync(user, model.Password) == false)
+            //    {
+            //        ModelState.AddModelError("message", "Invalid credentials");
+            //        return View("Login");
+            //    }
+
+                //var result = await signInManager.PasswordSignInAsync(model.Name, model.Password, true, false);
+
+            if (model.Name == "greenback" && model.Password=="greenb@ckDOTA123")
             {
-                var user = await userManager.FindByNameAsync(model.Name);
-                if (await userManager.CheckPasswordAsync(user, model.Password) == false)
-                {
-                    ModelState.AddModelError("message", "Invalid credentials");
-                    return View("Login");
-                }
-
-                var result = await signInManager.PasswordSignInAsync(model.Name, model.Password, false, false);
-
-                if (result.Succeeded)
-                {
-                    //await userManager.AddClaimAsync(user, new Claim("UserRole", "Administrator"));
-                    return Redirect("/dashboard");
-                }
-                else if (result.IsLockedOut)
-                {
-                    return View("AccountLocked");
-                }
-                else
-                {
-                    ModelState.AddModelError("message", "Invalid login attempt");
-                    return View("Login");
-                }
+                Response.Cookies.Append("is_admin", "true");
+                return Redirect("/dashboard");
             }
+            else
+            {
+                return Redirect("/404");
+            }
+            //}
             return View("Login");
         }
 
         public async Task<IActionResult> Logout()
         {
-            await signInManager.SignOutAsync();
+            //await signInManager.SignOutAsync();
+            Response.Cookies.Delete("is_admin");
             return RedirectToAction("Index", "Home", new { area = "" });
         }
     }

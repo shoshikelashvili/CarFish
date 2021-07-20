@@ -12,6 +12,6 @@ namespace CarFish.Models
         public string Phone { get; set; }
         public string Message { get; set; }
 
-        public string ToEmail = "greend9909@gmail.com";
+        public string ToEmail = "carfishstore@gmail.com";
     }
 }

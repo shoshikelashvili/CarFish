@@ -21,16 +21,17 @@
     <link rel="stylesheet" href="~/css/login.css">
 </head>
 
-@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Http;
 
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@{
+    string test = Context.Request.Cookies["is_admin"];
+}
 
 <ul class="navbar-nav">
-    @if (SignInManager.IsSignedIn(User))
+    @if (test == "true")
     {
         <li class="nav-item">
-            <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+            <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello Admin!</a>
         </li>
         <li class="nav-item">
             <form id="logoutForm" class="form-inline" asp-action="Logout" asp-controller="Admin" method="post">
@@ -39,6 +40,8 @@
         </li>
     }
 </ul>
+
+<div> session state: @test</div>
 
 <div class="container">
     <h1>Login</h1>
@@ -62,16 +65,16 @@
                 </div>
             </div>
 
-            @if (!SignInManager.IsSignedIn(User))
-            {
-                <div class="form-group">
-                    <div class="col-sm-12 btn-submit">
-                        <button type="submit" class="btn btn-success">Login</button>
+            @*@if (!SignInManager.IsSignedIn(User))
+                {*@
+            <div class="form-group">
+                <div class="col-sm-12 btn-submit">
+                    <button type="submit" class="btn btn-success">Login</button>
 
-                    </div>
                 </div>
-            }
             </div>
-            
+            @*}*@
+        </div>
+
     </form>
 </div>  
