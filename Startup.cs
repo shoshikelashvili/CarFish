@@ -98,47 +98,7 @@ namespace CarFish
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
             
-            //CreateRoles(serviceProvider);
         }
 
-        private void CreateRoles(IServiceProvider serviceProvider)
-        {
-            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
-            Task<IdentityResult> roleResult;
-            string name = "greenback";
-
-            //Check that there is an Administrator role and create if not
-            Task<bool> hasAdminRole = roleManager.RoleExistsAsync("Administrator");
-            hasAdminRole.Wait();
-
-            if (!hasAdminRole.Result)
-            {
-                roleResult = roleManager.CreateAsync(new IdentityRole("Administrator"));
-                roleResult.Wait();
-            }
-
-            //Check if the admin user exists and create it if not
-            //Add to the Administrator role
-
-            Task<IdentityUser> testUser = userManager.FindByNameAsync(name);
-            testUser.Wait();
-
-            if (testUser.Result == null)
-            {
-                IdentityUser administrator = new IdentityUser();
-                administrator.UserName = name;
-
-                //TODO: make password/username secure
-                Task<IdentityResult> newUser = userManager.CreateAsync(administrator, "greenb@ckDOTA123");
-                newUser.Wait();
-
-                if (newUser.Result.Succeeded)
-                {
-                    Task<IdentityResult> newUserRole = userManager.AddToRoleAsync(administrator, "Administrator");
-                    newUserRole.Wait();
-                }
-            }
-        }
     }
 }
