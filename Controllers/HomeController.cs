@@ -48,6 +48,7 @@ namespace CarFish.Controllers
             }
             catch(Exception ex)
             {
+                ViewBag.Exception = ex;
                 return View("Problem");
             }
             

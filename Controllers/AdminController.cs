@@ -50,7 +50,7 @@ namespace CarFish.Controllers
             if (model.Name == "greenback" && model.Password=="greenb@ckDOTA123")
             {
                 Response.Cookies.Append("is_admin", "true");
-                return Redirect("/dashboard");
+                return Redirect("/coreadmin");
             }
             else
             {

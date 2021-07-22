@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Identity;
 using CarFish.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.DataProtection;
+using System.IO;
 
 namespace CarFish
 {
@@ -40,6 +42,10 @@ namespace CarFish
             services.AddScoped<IImagesRepository, ImagesRepository>();
             services.AddScoped<ShoppingCart>(sp => ShoppingCart.GetCart(sp));
             services.AddControllersWithViews();
+
+            services.AddDataProtection()
+    .PersistKeysToFileSystem(new DirectoryInfo(@"\Inetpub\vhosts\carfish.ge\httpdocs"));
+
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
@@ -84,7 +90,7 @@ namespace CarFish
 
             app.UseRouting();
 
-            app.UseCoreAdminCustomUrl("dashboard");
+            //app.UseCoreAdminCustomUrl("dashboard");
             app.UseAuthorization();
             app.UseAuthentication();
 
