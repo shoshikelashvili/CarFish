@@ -46,8 +46,8 @@ namespace CarFish.Controllers
             //    }
 
                 //var result = await signInManager.PasswordSignInAsync(model.Name, model.Password, true, false);
-
-            if (model.Name == "greenback" && model.Password=="greenb@ckDOTA123")
+            
+            if (model.Name == "??" && model.Password=="??")
             {
                 Response.Cookies.Append("is_admin", "true");
                 return Redirect("/coreadmin");
