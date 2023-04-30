@@ -35,8 +35,8 @@ namespace CarFish
             services.AddHttpContextAccessor();
             services.AddSession();
 
-            //services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDbContext<AppDbContext>(options => options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<AppDbContext>(options => options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
             services.AddCoreAdmin();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IImagesRepository, ImagesRepository>();
