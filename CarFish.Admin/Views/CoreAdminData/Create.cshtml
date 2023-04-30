@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Page_Title"] = ViewBag.DbSetName;
+    Layout = "_CoreAdminLayout";
+}
+
+<h1 class="display-4">@ViewBag.DbSetName - Create</h1>
+
+
+@using (Html.BeginForm("CreateEntityPost", "CoreAdminData", new { id = ViewBag.DbSetName }, FormMethod.Post))
+{
+
+
+    @Html.Hidden("dbSetName", ViewBag.DbSetName, new { })
+
+    @Html.EditorForModel("DefaultEntity")
+
+    @if(ViewBag.DbSetName == "Products")
+    {
+        <div class="form-group row">
+            <label class="col-md-2 col-form-label" for="ProductImages">ProductImages (Add image URLS separated by comma)</label>
+            <div class="col-md-10">
+                <input class="text-box single-line form-control" id="ProductImages" name="ProductImages" type="text" value="">
+            </div>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-md-12 px-4">
+            <button type="submit" class="btn btn-primary">Create</button>
+
+            @Html.ActionLink("No, go back", "Index", new { Id = ViewBag.DbSetName })
+
+        </div>
+    </div>
+
+
+}

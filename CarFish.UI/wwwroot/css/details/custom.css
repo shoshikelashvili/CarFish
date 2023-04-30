@@ -1,0 +1,46 @@
+/** ADD YOUR AWESOME CODES HERE **/
+@font-face {
+    font-family: "Mtavruli";
+    src: url('Mtavruli.ttf');
+}
+
+.header {
+    background-color: #136af8;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 1;
+}
+#baguetteBox-overlay{
+    display:none;
+}
+
+.titlepage {
+    padding-bottom: 50px;
+}
+
+#sidemenu ::-webkit-scrollbar {
+    display:none;
+}
+
+.side {
+    position: fixed;
+    overflow-y: auto;
+    top: 0;
+    right: -280px;
+    width: 280px;
+    padding: 25px 15px;
+    height: 100%;
+    display: block;
+    background-color: #222222;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    z-index: 9;
+}
+
+.side.on {
+    right: 0;
+}

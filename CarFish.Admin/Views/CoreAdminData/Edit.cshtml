@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Page_Title"] = ViewBag.DbSetName;
+    Layout = "_CoreAdminLayout";
+}
+
+<h1 class="display-4">@ViewBag.DbSetName - Edit</h1>
+
+
+@using (Html.BeginForm("EditEntityPost", "CoreAdminData", new { dbSetName = ViewBag.DbSetName, id = ViewBag.Id }, FormMethod.Post))
+{
+
+    @Html.Hidden("dbSetName", ViewBag.DbSetName, new { })
+    @Html.Hidden("id", ViewBag.Id, new { })
+
+    @Html.EditorForModel("DefaultEntity")
+
+    @if(ViewBag.DbSetName == "Products")
+    {
+
+        var test = ViewBag.Images;
+
+        var finalText = "";
+        var i = 0;
+        foreach(object image in test)
+        {
+            finalText += image.GetType().GetProperty("ImageURL").GetValue(image, null);
+            finalText += ",";
+            i++;
+        }
+
+        if(i != 0)
+        {
+            finalText = finalText.Remove(finalText.Length - 1, 1);
+        }
+
+        <div class="form-group row">
+            <label class="col-md-2 col-form-label" for="ProductImages">ProductImages (Add image URLS separated by comma)</label>
+            <div class="col-md-10">
+                <input class="text-box single-line form-control" id="ProductImages" name="ProductImages" type="text" value="@finalText">
+            </div>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-md-12 px-4">
+            <button type="submit" class="btn btn-primary">Edit</button>
+
+            @Html.ActionLink("No, go back", "Index", new { Id = ViewBag.DbSetName })
+
+        </div>
+    </div>
+
+
+}
+

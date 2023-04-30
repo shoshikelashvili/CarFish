@@ -1,0 +1,83 @@
+﻿@model UserLoginDto
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@{
+    ViewData["Title"] = "Login";
+    Layout = "";
+}
+
+<head>
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <!-- style css -->
+    <link rel="stylesheet" href="~/css/style.css">
+    <!-- Responsive-->
+    <link rel="stylesheet" href="~/css/responsive.css">
+    <link rel="stylesheet" href="~/css/custom.css">
+    <link rel="stylesheet" href="~/css/login.css">
+</head>
+
+@using Microsoft.AspNetCore.Http;
+
+@{
+    string test = Context.Request.Cookies["is_admin"];
+}
+
+<ul class="navbar-nav">
+    @if (test == "true")
+    {
+        <li class="nav-item">
+            <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello Admin!</a>
+        </li>
+        <li class="nav-item">
+            <form id="logoutForm" class="form-inline" asp-action="Logout" asp-controller="Admin" method="post">
+                <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+        </li>
+    }
+</ul>
+
+<div>Website version is: @Configuration.GetSection("Versions")["WebsiteVersion"]</div>
+<div> session state: @test</div>
+
+<div class="container">
+    <h1>Login</h1>
+    <form asp-action="LoginCheck" asp-controller="Admin" method="post">
+
+        <div class="logindiv">
+
+            <div class="form-group col-sm-12">
+                <label asp-for="@Model.Name" class="col-lg-3 control-label"></label>
+                <br>
+                <div class="col-lg-9">
+                    @Html.TextBoxFor(m => m.Name, new { placeholder = "Name", @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group col-sm-12">
+                <label asp-for="@Model.Password" class="col-lg-3 control-label"></label>
+                <br>
+                <div class="col-lg-9">
+                    @Html.PasswordFor(m => m.Password, new { placeholder = "Password", @class = "form-control" })
+                </div>
+            </div>
+
+            @*@if (!SignInManager.IsSignedIn(User))
+                {*@
+            <div class="form-group">
+                <div class="col-sm-12 btn-submit">
+                    <button type="submit" class="btn btn-success">Login</button>
+
+                </div>
+            </div>
+            @*}*@
+        </div>
+
+    </form>
+</div>  
