@@ -23,8 +23,9 @@ namespace DotNetEd.CoreAdmin.Controllers
         public CoreAdminDataController(IEnumerable<DiscoveredDbContextType> dbContexts)
         {
             this.dbContexts = dbContexts;
-            //this.CustomDbConnString = "server=localhost;port=3306;username=greenback;password=greenb@ckDOTA123;database=carfishg_carfish";
-            this.CustomDbConnString = "server=localhost;port=3306;username=root;password=;database=carfish_dev;charset=utf8";
+            //fix thissss
+            this.CustomDbConnString = "server=localhost;port=3306;username=greenback;password=greenb@ckDOTA123;database=carfishg_carfish";
+            //this.CustomDbConnString = "server=localhost;port=3306;username=root;password=;database=carfish_dev;charset=utf8";
         }
 
 
