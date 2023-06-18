@@ -435,5 +435,8 @@ $RECYCLE.BIN/
 
 **/appsettings.Development.json
 **/appsettings.json
+**/web.config
+**/web.Release.config
 appsettings.json
 /CarFish.UI/appsettings.Development.json
+/CarFish.UI//web.Release.config

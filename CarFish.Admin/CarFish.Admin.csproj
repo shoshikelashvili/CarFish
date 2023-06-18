@@ -4,7 +4,8 @@
     <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <PreserveCompilationContext>false</PreserveCompilationContext>
-	 <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+	  <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+	  <AspNetCoreModuleName>AspNetCoreModule</AspNetCoreModuleName>
     <SuppressDependenciesWhenPacking>false</SuppressDependenciesWhenPacking>
     <PackageId>CoreAdmin</PackageId>
     <PackageVersion>1.5.0</PackageVersion>
