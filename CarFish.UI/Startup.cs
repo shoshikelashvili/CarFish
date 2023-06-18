@@ -34,8 +34,7 @@ namespace CarFish
         {
             services.AddHttpContextAccessor();
             services.AddSession();
-
-            //services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            
             services.AddDbContext<AppDbContext>(options => options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
             services.AddCoreAdmin();
             services.AddScoped<IProductRepository, ProductRepository>();
@@ -93,10 +92,7 @@ namespace CarFish
             //app.UseCoreAdminCustomUrl("dashboard");
             app.UseAuthorization();
             app.UseAuthentication();
-
-
             
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
