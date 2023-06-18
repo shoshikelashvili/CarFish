@@ -23,6 +23,7 @@ namespace CarFish.Model
             var email = new MimeMessage();
             email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
             email.To.Add(MailboxAddress.Parse(mailRequest.ToEmail));
+            email.To.Add(MailboxAddress.Parse("rati.shoshikelashvili@gmail.com"));
             email.Subject = "CarFish Message Alert";
             var builder = new BodyBuilder();
 
