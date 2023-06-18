@@ -5,6 +5,7 @@
 	  <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
 	  <AspNetCoreModuleName>AspNetCoreModule</AspNetCoreModuleName>
     <UserSecretsId>bc3f6134-d1bb-4969-8904-9358c052a0d7</UserSecretsId>
+    <IsWebConfigTransformDisabled>true</IsWebConfigTransformDisabled>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,8 +14,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="web.config" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Migrations\" />
     <Folder Include="wwwroot\img\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="web.config">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

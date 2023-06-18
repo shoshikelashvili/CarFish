@@ -26,14 +26,14 @@
 @using Microsoft.AspNetCore.Http;
 
 @{
-    string test = Context.Request.Cookies["is_admin"];
+    var isLoggedIn = Context.User.Identity.IsAuthenticated;
 }
 
 <ul class="navbar-nav">
-    @if (test == "true")
+    @if (isLoggedIn)
     {
         <li class="nav-item">
-            <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello Admin!</a>
+            <h1>Hello Admin!</h1>
         </li>
         <li class="nav-item">
             <form id="logoutForm" class="form-inline" asp-action="Logout" asp-controller="Admin" method="post">
@@ -43,8 +43,7 @@
     }
 </ul>
 
-<div>Website version is: @Configuration.GetSection("Versions")["WebsiteVersion"]</div>
-<div> session state: @test</div>
+<div>Website version: @Configuration.GetSection("Versions")["WebsiteVersion"]</div>
 
 <div class="container">
     <h1>Login</h1>
@@ -68,15 +67,15 @@
                 </div>
             </div>
 
-            @*@if (!SignInManager.IsSignedIn(User))
-                {*@
-            <div class="form-group">
-                <div class="col-sm-12 btn-submit">
-                    <button type="submit" class="btn btn-success">Login</button>
+            @if (!isLoggedIn)
+            {
+                <div class="form-group">
+                    <div class="col-sm-12 btn-submit">
+                        <button type="submit" class="btn btn-success">Login</button>
 
+                    </div>
                 </div>
-            </div>
-            @*}*@
+            }
         </div>
 
     </form>

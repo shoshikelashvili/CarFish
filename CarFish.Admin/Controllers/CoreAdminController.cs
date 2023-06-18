@@ -12,15 +12,8 @@ namespace DotNetEd.CoreAdmin.Controllers
         [IgnoreAntiforgeryToken]
         public IActionResult Index()
         {
-            string test = Request.Cookies["is_admin"];
-            if(test == "true")
-            {
-                return View();
-            }
-            else
-            {
-                return Redirect("/404"); ;
-            }
+            
+            return View();
             
         }
     }

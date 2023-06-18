@@ -15,12 +15,13 @@ namespace CarFish.Controllers
 {
     public class AdminController : Controller
     {
-        //private readonly UserManager<IdentityUser> userManager;
-        //private readonly SignInManager<IdentityUser> signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public AdminController()
+        public AdminController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
-
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         [Route("admin")]
@@ -36,34 +37,27 @@ namespace CarFish.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> LoginCheck(UserLoginDto model)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    var user = await userManager.FindByNameAsync(model.Name);
-            //    if (await userManager.CheckPasswordAsync(user, model.Password) == false)
-            //    {
-            //        ModelState.AddModelError("message", "Invalid credentials");
-            //        return View("Login");
-            //    }
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByNameAsync(model.Name);
+                if (await _userManager.CheckPasswordAsync(user, model.Password) == false)
+                {
+                    ModelState.AddModelError("message", "Invalid credentials");
+                    return View("Login");
+                }
 
-                //var result = await signInManager.PasswordSignInAsync(model.Name, model.Password, true, false);
+                var result = await _signInManager.PasswordSignInAsync(model.Name, model.Password, true, false);
+
+                if(result.Succeeded)
+                    return Redirect("/coreadmin");
+            }
             
-            if (model.Name == "??" && model.Password=="??")
-            {
-                Response.Cookies.Append("is_admin", "true");
-                return Redirect("/coreadmin");
-            }
-            else
-            {
-                return Redirect("/404");
-            }
-            //}
             return View("Login");
         }
 
         public async Task<IActionResult> Logout()
         {
-            //await signInManager.SignOutAsync();
-            Response.Cookies.Delete("is_admin");
+            await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home", new { area = "" });
         }
     }

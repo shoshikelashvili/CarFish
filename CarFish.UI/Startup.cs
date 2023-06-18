@@ -36,7 +36,7 @@ namespace CarFish
             services.AddSession();
             
             services.AddDbContext<AppDbContext>(options => options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddCoreAdmin();
+            services.AddCoreAdmin("Administrator");
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IImagesRepository, ImagesRepository>();
             services.AddScoped<ShoppingCart>(sp => ShoppingCart.GetCart(sp));
@@ -48,7 +48,7 @@ namespace CarFish
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
-            //services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
 
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             services.AddTransient<IMailService, MailService>();
@@ -88,8 +88,7 @@ namespace CarFish
             app.UseSession();
 
             app.UseRouting();
-
-            //app.UseCoreAdminCustomUrl("dashboard");
+            
             app.UseAuthorization();
             app.UseAuthentication();
             

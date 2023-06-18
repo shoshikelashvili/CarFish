@@ -1,11 +1,7 @@
-﻿using DotNetEd.CoreAdmin.ViewModels;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using DotNetEd.CoreAdmin.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DotNetEd.CoreAdmin.ViewComponents
 {
@@ -13,6 +9,12 @@ namespace DotNetEd.CoreAdmin.ViewComponents
     {
         private readonly IEnumerable<DiscoveredDbContextType> dbContexts;
 
+        private readonly List<string> EntitiesToShow = new List<string>
+        {
+            "Home",
+            "Images",
+            "Products"
+        };
         public CoreAdminMenuViewComponent(IEnumerable<DiscoveredDbContextType> dbContexts)
         {
             this.dbContexts = dbContexts;
@@ -31,7 +33,8 @@ namespace DotNetEd.CoreAdmin.ViewComponents
                     // looking for DbSet<Entity>
                     if (dbSetProperty.PropertyType.IsGenericType && dbSetProperty.PropertyType.Name.StartsWith("DbSet"))
                     {
-                        viewModel.DbSetNames.Add(dbSetProperty.Name);
+                        if(EntitiesToShow.Contains(dbSetProperty.Name))
+                            viewModel.DbSetNames.Add(dbSetProperty.Name);
                     }    
                 }
             }

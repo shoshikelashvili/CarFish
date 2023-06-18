@@ -30,36 +30,28 @@ namespace DotNetEd.CoreAdmin.Controllers
         [IgnoreAntiforgeryToken]
         public IActionResult Index(string id)
         {
-            string test = Request.Cookies["is_admin"];
-            if (test == "true")
+            var viewModel = new DataListViewModel();
+
+            foreach (var dbContext in dbContexts)
             {
-                var viewModel = new DataListViewModel();
-
-                foreach (var dbContext in dbContexts)
+                foreach (var dbSetProperty in dbContext.Type.GetProperties())
                 {
-                    foreach (var dbSetProperty in dbContext.Type.GetProperties())
+                    if (dbSetProperty.PropertyType.IsGenericType && dbSetProperty.PropertyType.Name.StartsWith("DbSet") && dbSetProperty.Name.ToLowerInvariant() == id.ToLowerInvariant())
                     {
-                        if (dbSetProperty.PropertyType.IsGenericType && dbSetProperty.PropertyType.Name.StartsWith("DbSet") && dbSetProperty.Name.ToLowerInvariant() == id.ToLowerInvariant())
-                        {
-                            viewModel.EntityType = dbSetProperty.PropertyType.GetGenericArguments().First();
-                            viewModel.DbSetProperty = dbSetProperty;
+                        viewModel.EntityType = dbSetProperty.PropertyType.GetGenericArguments().First();
+                        viewModel.DbSetProperty = dbSetProperty;
 
-                            var dbContextObject = (DbContext)this.HttpContext.RequestServices.GetRequiredService(dbContext.Type);
+                        var dbContextObject = (DbContext)this.HttpContext.RequestServices.GetRequiredService(dbContext.Type);
 
-                            var dbSetValue = dbSetProperty.GetValue(dbContextObject);
+                        var dbSetValue = dbSetProperty.GetValue(dbContextObject);
 
-                            viewModel.Data = (IEnumerable<object>)dbSetValue;
-                            viewModel.DbContext = dbContextObject;
-                        }
+                        viewModel.Data = (IEnumerable<object>)dbSetValue;
+                        viewModel.DbContext = dbContextObject;
                     }
                 }
+            }
 
-                return View(viewModel);
-            }
-            else
-            {
-                return Redirect("/404"); ;
-            }
+            return View(viewModel);
         }
         [IgnoreAntiforgeryToken]
         private object GetDbSetValueOrNull(string dbSetName, out DbContext dbContextObject, out Type typeOfEntity)
@@ -180,47 +172,31 @@ namespace DotNetEd.CoreAdmin.Controllers
         [IgnoreAntiforgeryToken]
         public IActionResult Create(string id)
         {
-            string test = Request.Cookies["is_admin"];
-            if (test == "true")
-            {
-                var dbSetValue = GetDbSetValueOrNull(id, out var dbContextObject, out var entityType);
+            var dbSetValue = GetDbSetValueOrNull(id, out var dbContextObject, out var entityType);
 
-                var newEntity = System.Activator.CreateInstance(entityType);
-                ViewBag.DbSetName = id;
+            var newEntity = System.Activator.CreateInstance(entityType);
+            ViewBag.DbSetName = id;
 
-                return View(newEntity);
-            }
-            else
-            {
-                return Redirect("/404"); ;
-            }
+            return View(newEntity);
         }
 
         [HttpGet]
         [IgnoreAntiforgeryToken]
         public IActionResult EditEntity(string dbSetName, string id)
         {
-            string test = Request.Cookies["is_admin"];
-            if (test == "true")
-            {
-                var entityToEdit = GetEntityFromDbSet(dbSetName, id, out var dbContextObject, out var entityType);
-                ViewBag.DbSetName = dbSetName;
-                ViewBag.Id = id;
+            var entityToEdit = GetEntityFromDbSet(dbSetName, id, out var dbContextObject, out var entityType);
+            ViewBag.DbSetName = dbSetName;
+            ViewBag.Id = id;
 
-                //Code for fetching options
-                var connectionstring = this.CustomDbConnString;
-                var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-                optionsBuilder.UseMySQL(connectionstring);
+            //Code for fetching options
+            var connectionstring = this.CustomDbConnString;
+            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+            optionsBuilder.UseMySQL(connectionstring);
 
-                using (AppDbContext carFishDb = new AppDbContext(optionsBuilder.Options))
-                {
-                    ViewBag.Images = carFishDb.Images.Where(i => i.ProductID == int.Parse(id)).ToList();
-                    return View("Edit", entityToEdit);
-                }
-            }
-            else
+            using (AppDbContext carFishDb = new AppDbContext(optionsBuilder.Options))
             {
-                return Redirect("/404"); ;
+                ViewBag.Images = carFishDb.Images.Where(i => i.ProductID == int.Parse(id)).ToList();
+                return View("Edit", entityToEdit);
             }
         }
 
@@ -246,6 +222,7 @@ namespace DotNetEd.CoreAdmin.Controllers
                     var connectionstring = this.CustomDbConnString;
                     var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
                     optionsBuilder.UseMySQL(connectionstring);
+
                     using (AppDbContext carFishDb = new AppDbContext(optionsBuilder.Options))
                     {
                         var images = carFishDb.Images.Where(i => i.ProductID == int.Parse(id)).ToList();
@@ -297,21 +274,13 @@ namespace DotNetEd.CoreAdmin.Controllers
         [IgnoreAntiforgeryToken]
         public IActionResult DeleteEntity(string dbSetName, string id)
         {
-            string test = Request.Cookies["is_admin"];
-            if (test == "true")
-            {
-                var viewModel = new DataDeleteViewModel();
-                viewModel.DbSetName = dbSetName;
-                viewModel.Id = id;
-                viewModel.Object = GetEntityFromDbSet(dbSetName, id, out var dbContext, out var entityType);
-                if (viewModel.Object == null) return NotFound();
+            var viewModel = new DataDeleteViewModel();
+            viewModel.DbSetName = dbSetName;
+            viewModel.Id = id;
+            viewModel.Object = GetEntityFromDbSet(dbSetName, id, out var dbContext, out var entityType);
+            if (viewModel.Object == null) return NotFound();
 
-                return View(viewModel);
-            }
-            else
-            {
-                return Redirect("/404"); ;
-            }
+            return View(viewModel);
         }
 
         [HttpPost]
