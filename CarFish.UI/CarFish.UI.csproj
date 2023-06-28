@@ -34,6 +34,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CarFish.Admin\CarFish.Admin.csproj" />
+    <ProjectReference Include="..\Carfish.Shared\CarFish.Shared.csproj" />
   </ItemGroup>
 
 </Project>

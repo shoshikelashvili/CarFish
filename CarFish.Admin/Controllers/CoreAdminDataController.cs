@@ -25,7 +25,6 @@ namespace DotNetEd.CoreAdmin.Controllers
             this.dbContexts = dbContexts;
         }
 
-
         [HttpGet]
         [IgnoreAntiforgeryToken]
         public IActionResult Index(string id)
@@ -188,6 +187,9 @@ namespace DotNetEd.CoreAdmin.Controllers
             ViewBag.DbSetName = dbSetName;
             ViewBag.Id = id;
 
+            var dbContext = (AppDbContext)this.HttpContext.RequestServices.GetRequiredService(dbContexts.First().Type);
+            ViewBag.Images = dbContext.Images.Where(i => i.ProductID == int.Parse(id)).ToList();
+            return View("Edit", entityToEdit);
             //Code for fetching options
             var connectionstring = this.CustomDbConnString;
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();

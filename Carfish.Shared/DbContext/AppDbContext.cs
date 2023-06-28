@@ -1,15 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System.Reflection.Emit;
+using System.Text;
+using CarFish.Shared.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
-namespace CarFish.Models
+namespace CarFish.Shared.DbContext
 {
-    public class AppDbContext: IdentityDbContext<IdentityUser>
+    public class AppDbContext : IdentityDbContext<IdentityUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -119,7 +119,7 @@ namespace CarFish.Models
                 LongDescription = "მანქანის 'ჩიხოლები' გვაქვს ორ ფერში ლურჯში და ნაცრისფერში ლორემ იპსუმ",
                 IsFeatured = true,
                 InStock = true,
-            });;
+            }); ;
 
             modelBuilder.Entity<Product>().HasData(new Product
             {

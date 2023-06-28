@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
 using System.IO;
+using CarFish.Shared.DbContext;
 
 namespace CarFish
 {
@@ -35,7 +36,7 @@ namespace CarFish
             services.AddHttpContextAccessor();
             services.AddSession();
             
-            services.AddDbContext<AppDbContext>(options => options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<AppDbContext>(options => options.UseMySQL(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("CarFish.UI")));
             services.AddCoreAdmin("Administrator");
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IImagesRepository, ImagesRepository>();

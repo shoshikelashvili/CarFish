@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CarFish.Shared.DbContext;
+using CarFish.Shared.Models;
 
 namespace CarFish.Models
 {
