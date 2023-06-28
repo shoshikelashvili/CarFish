@@ -7,12 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20210714003259_identity fixes.cs" />
-    <Compile Remove="Migrations\20210714003259_identity fixes.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
 

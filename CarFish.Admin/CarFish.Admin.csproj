@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.15" />
     <PackageReference Include="MySql.Data" Version="8.0.25" />
     <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.22" />
     <PackageReference Include="NonFactors.Grid.Core.Mvc6" Version="6.2.3" />
@@ -32,6 +32,10 @@
 
   <ItemGroup>
     <Folder Include="Areas\coreadmin\Views\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Carfish.Shared\CarFish.Shared.csproj" />
   </ItemGroup>
 
 
