@@ -1,18 +1,13 @@
 ﻿using DotNetEd.CoreAdmin.ViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using CarFish.Shared.DbContext;
-using CarFish.Shared.Models;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace DotNetEd.CoreAdmin.Controllers
 {

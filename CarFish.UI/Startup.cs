@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using CarFish.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using CarFish.Model;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using CarFish.Shared.DbContext;
+using Microsoft.AspNetCore.DataProtection;
 
 namespace CarFish
 {
@@ -34,6 +36,11 @@ namespace CarFish
             services.AddScoped<IImagesRepository, ImagesRepository>();
             services.AddScoped(ShoppingCart.GetCart);
             services.AddControllersWithViews();
+
+            //Need data protection to keep user logged in, otherwise it gets reset every second
+            //https://stackoverflow.com/questions/71915447/random-asp-net-core-identity-logouts-in-production
+            services.AddDataProtection()
+                .PersistKeysToFileSystem(new DirectoryInfo(@"\Inetpub\vhosts\carfish.ge\httpdocs"));
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
