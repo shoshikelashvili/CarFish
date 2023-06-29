@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using CarFish.Models;
 using CarFish.ViewModels;
 
@@ -12,7 +9,6 @@ namespace CarFish.Controllers
 {
     public class HomeController : Controller
     {
-
         private readonly IProductRepository _productRepository;
         private readonly ShoppingCart _shoppingCart;
         private readonly IMailService _mailService;
@@ -65,11 +61,6 @@ namespace CarFish.Controllers
         [Route("404")]
         public IActionResult PageNotFound()
         {
-            string originalPath = "unknown";
-            if (HttpContext.Items.ContainsKey("originalPath"))
-            {
-                originalPath = HttpContext.Items["originalPath"] as string;
-            }
             return View();
         }
     }

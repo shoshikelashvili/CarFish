@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Mvc;
 using CarFish.Models;
 using CarFish.ViewModels;
 
@@ -22,13 +16,7 @@ namespace CarFish.Controllers
             _imagesRepository = imagesRepository;
             _shoppingCart = shoppingCart;
         }
-
-        public bool Test()
-        {
-            var test = _productRepository.GetProductById(2);
-            return true;
-        }
-
+        
         public IActionResult Details(int id)
         {
             DetailsPageViewModel detailsPageViewModel = new DetailsPageViewModel();

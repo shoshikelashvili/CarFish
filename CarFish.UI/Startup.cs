@@ -1,22 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CarFish.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MySql.Data.MySqlClient;
 using Microsoft.AspNetCore.Identity;
 using CarFish.Model;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.DataProtection;
-using System.IO;
 using CarFish.Shared.DbContext;
 
 namespace CarFish
@@ -40,35 +32,29 @@ namespace CarFish
             services.AddCoreAdmin("Administrator");
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IImagesRepository, ImagesRepository>();
-            services.AddScoped<ShoppingCart>(sp => ShoppingCart.GetCart(sp));
+            services.AddScoped(ShoppingCart.GetCart);
             services.AddControllersWithViews();
 
-            services.AddDataProtection()
-    .PersistKeysToFileSystem(new DirectoryInfo(@"\Inetpub\vhosts\carfish.ge\httpdocs"));
-
-
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
-
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
 
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             services.AddTransient<IMailService, MailService>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
-            app.Use(async (ctx, next) =>
+            app.Use(async (context, next) =>
             {   
                 await next();
 
-                if (ctx.Response.StatusCode == 404 && !ctx.Response.HasStarted)
+                if (context.Response.StatusCode == 404 && !context.Response.HasStarted)
                 {
                     //Re-execute the request so the user gets the error page
-                    string originalPath = ctx.Request.Path.Value;
-                    ctx.Items["originalPath"] = originalPath;
-                    ctx.Request.Path = "/404";
+                    string originalPath = context.Request.Path.Value;
+                    context.Items["originalPath"] = originalPath;
+                    context.Request.Path = "/404";
                     await next();
                 }
             });
