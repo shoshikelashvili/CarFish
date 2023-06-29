@@ -13,7 +13,8 @@ namespace DotNetEd.CoreAdmin.ViewComponents
         {
             "Home",
             "Images",
-            "Products"
+            "Products",
+            "Categories"
         };
         public CoreAdminMenuViewComponent(IEnumerable<DiscoveredDbContextType> dbContexts)
         {

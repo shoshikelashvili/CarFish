@@ -16,12 +16,19 @@
 
     @if(ViewBag.DbSetName == "Products")
     {
+        var category = ViewBag.Category;
 
-        var test = ViewBag.Images;
+        <div class="form-group row">
+            <label class="col-md-2 col-form-label" for="Category">Category</label>
+            <div class="col-md-10">
+                <input class="text-box single-line form-control" id="ProductImages" name="ProductImages" type="text" value="@category">
+            </div>
+        </div>
 
+        var images = ViewBag.Images;
         var finalText = "";
         var i = 0;
-        foreach(object image in test)
+        foreach (object image in images)
         {
             finalText += image.GetType().GetProperty("ImageURL").GetValue(image, null);
             finalText += ",";

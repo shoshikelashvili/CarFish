@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using CarFish.Shared.DbContext;
+using CarFish.Shared.Models;
 
 namespace DotNetEd.CoreAdmin.Controllers
 {
@@ -165,7 +166,15 @@ namespace DotNetEd.CoreAdmin.Controllers
             ViewBag.Id = id;
 
             var dbContext = (AppDbContext)HttpContext.RequestServices.GetRequiredService(dbContexts.First().Type);
-            ViewBag.Images = dbContext.Images.Where(i => i.ProductID == int.Parse(id)).ToList();
+            
+            if (entityToEdit is Product product)
+            {
+                var productss = dbContext.Products.Include(p => p.Category).FirstOrDefault(p => p.ProductId == int.Parse(id));
+                ViewBag.Images = dbContext.Images.Where(i => i.ProductID == int.Parse(id)).ToList();
+
+                ViewBag.Category = dbContext.Categories.FirstOrDefault(i => i.Id == product.Category.Id)?.Name ?? "";
+            }
+
             return View("Edit", entityToEdit);
         }
 

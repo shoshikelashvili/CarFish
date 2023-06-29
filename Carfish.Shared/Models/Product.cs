@@ -25,7 +25,8 @@ namespace CarFish.Shared.Models
 
         public bool IsFeatured { get; set; }
 
-        public List<Images> AllImages { get; set; }
+        public virtual Category Category { get; set; }
 
+        public List<Images> AllImages { get; set; }
     }
 }
