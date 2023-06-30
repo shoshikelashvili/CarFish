@@ -66,7 +66,7 @@ namespace DotNetEd.CoreAdmin.Controllers
 
         [HttpPost]
         [IgnoreAntiforgeryToken]
-        public async Task<IActionResult> CreateEntityPost(string dbSetName, string id, [FromForm] object formData, string ProductImages, string Category)
+        public async Task<IActionResult> CreateEntityPost(string dbSetName, string id, [FromForm] object formData, string ProductImages = null, string Category = null)
         {
             var dbSetValue = GetDbSetValueOrNull(dbSetName, out var dbContextObject, out var entityType);
             var newEntity = System.Activator.CreateInstance(entityType);
@@ -109,6 +109,11 @@ namespace DotNetEd.CoreAdmin.Controllers
 
             var newEntity = System.Activator.CreateInstance(entityType);
             ViewBag.DbSetName = id;
+            if (id == "Products")
+            {
+                var dbContext = (AppDbContext)HttpContext.RequestServices.GetRequiredService(dbContexts.First().Type);
+                ViewBag.Categories = dbContext.Categories.Select(x => x.Name).ToList();
+            }
 
             return View(newEntity);
         }
@@ -128,6 +133,7 @@ namespace DotNetEd.CoreAdmin.Controllers
                 var productFull = dbContext.Products.Include(p => p.Category).FirstOrDefault(p => p.ProductId == int.Parse(id));
                 ViewBag.Images = dbContext.Images.Where(i => i.ProductID == int.Parse(id)).ToList();
                 ViewBag.Category = productFull?.Category is null ? "" : dbContext.Categories.FirstOrDefault(i => i.Id == productFull.Category.Id)?.Name;
+                ViewBag.Categories = dbContext.Categories.Select(x => x.Name).ToList();
             }
 
             return View("Edit", entityToEdit);

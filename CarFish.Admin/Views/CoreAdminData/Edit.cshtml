@@ -21,7 +21,13 @@
         <div class="form-group row">
             <label class="col-md-2 col-form-label" for="Category">Category</label>
             <div class="col-md-10">
-                <input class="text-box single-line form-control" id="Category" name="Category" type="text" value="@category">
+                @*<input class="text-box single-line form-control" id="Category" name="Category" list="categories">*@
+                <select name="Category" id="Category">
+                    @foreach (var c in ViewBag.Categories)
+                    {
+                        <option value="@c">@c</option>
+                    }
+                </select>
             </div>
         </div>
 
