@@ -17,6 +17,13 @@
     @if(ViewBag.DbSetName == "Products")
     {
         <div class="form-group row">
+            <label class="col-md-2 col-form-label" for="Category">Category</label>
+            <div class="col-md-10">
+                <input class="text-box single-line form-control" id="Category" name="Category" type="text" value="">
+            </div>
+        </div>
+
+        <div class="form-group row">
             <label class="col-md-2 col-form-label" for="ProductImages">ProductImages (Add image URLS separated by comma)</label>
             <div class="col-md-10">
                 <input class="text-box single-line form-control" id="ProductImages" name="ProductImages" type="text" value="">

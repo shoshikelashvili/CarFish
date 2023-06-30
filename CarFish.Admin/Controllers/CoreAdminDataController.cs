@@ -17,8 +17,6 @@ namespace DotNetEd.CoreAdmin.Controllers
     {
         private readonly IEnumerable<DiscoveredDbContextType> dbContexts;
 
-        public string CustomDbConnString { get; }
-
         public CoreAdminDataController(IEnumerable<DiscoveredDbContextType> dbContexts)
         {
             this.dbContexts = dbContexts;
@@ -42,7 +40,21 @@ namespace DotNetEd.CoreAdmin.Controllers
                         var dbContextObject = (DbContext)this.HttpContext.RequestServices.GetRequiredService(dbContext.Type);
 
                         var dbSetValue = dbSetProperty.GetValue(dbContextObject);
+                        if (id == "Products")
+                        {
+                            var appDbContext = (AppDbContext)HttpContext.RequestServices.GetRequiredService(dbContexts.First().Type);
+                            var products = appDbContext.Products.Include(p => p.Category);
+                            foreach (var p in products)
+                            {
+                                if (p.ShortDescription.Length > 30)
+                                {
+                                    p.ShortDescription = p.ShortDescription.Substring(0, 30);
+                                    p.ShortDescription += "...";
+                                }
+                            }
 
+                            dbSetValue = products;
+                        }
                         viewModel.Data = (IEnumerable<object>)dbSetValue;
                         viewModel.DbContext = dbContextObject;
                     }
@@ -51,55 +63,10 @@ namespace DotNetEd.CoreAdmin.Controllers
 
             return View(viewModel);
         }
-        [IgnoreAntiforgeryToken]
-        private object GetDbSetValueOrNull(string dbSetName, out DbContext dbContextObject, out Type typeOfEntity)
-        {
-            foreach (var dbContext in dbContexts)
-            {
-                foreach (var dbSetProperty in dbContext.Type.GetProperties())
-                {
-                    if (dbSetProperty.PropertyType.IsGenericType && dbSetProperty.PropertyType.Name.StartsWith("DbSet") && dbSetProperty.Name.ToLowerInvariant() == dbSetName.ToLowerInvariant())
-                    {
-                        dbContextObject = (DbContext)this.HttpContext.RequestServices.GetRequiredService(dbContext.Type);
-                        typeOfEntity = dbSetProperty.PropertyType.GetGenericArguments()[0];
-                        return dbSetProperty.GetValue(dbContextObject);
-                    }
-                }
-            }
-
-            dbContextObject = null;
-            typeOfEntity = null;
-            return null;
-        }
-
-        [IgnoreAntiforgeryToken]
-        private object GetEntityFromDbSet(string dbSetName, string id, out DbContext dbContextObject, out Type typeOfEntity)
-        {
-            var dbSetValue = GetDbSetValueOrNull(dbSetName, out dbContextObject, out typeOfEntity);
-
-            var primaryKey = dbContextObject.Model.FindEntityType(typeOfEntity).FindPrimaryKey();
-            var clrType = primaryKey.Properties[0].ClrType;
-
-            object convertedPrimaryKey = id;
-            if (clrType == typeof(Guid))
-            {
-                convertedPrimaryKey = Guid.Parse(id);
-            }
-            else if (clrType == typeof(int))
-            {
-                convertedPrimaryKey = int.Parse(id);
-            }
-            else if (clrType == typeof(Int64))
-            {
-                convertedPrimaryKey = Int64.Parse(id);
-            }
-
-            return dbSetValue.GetType().InvokeMember("Find", BindingFlags.InvokeMethod, null, dbSetValue, args: new object[] { convertedPrimaryKey });
-        }
 
         [HttpPost]
         [IgnoreAntiforgeryToken]
-        public async Task<IActionResult> CreateEntityPost(string dbSetName, string id, [FromForm] object formData, string ProductImages)
+        public async Task<IActionResult> CreateEntityPost(string dbSetName, string id, [FromForm] object formData, string ProductImages, string Category)
         {
             var dbSetValue = GetDbSetValueOrNull(dbSetName, out var dbContextObject, out var entityType);
             var newEntity = System.Activator.CreateInstance(entityType);
@@ -116,23 +83,12 @@ namespace DotNetEd.CoreAdmin.Controllers
 
                     if (new_id != null) //Product has been added
                     {
-                        if (ProductImages != null)
+                        if (id == "Products")
                         {
-                            string[] images_array = ProductImages.Split(',');
-
-                            var dbSetValue2 = GetDbSetValueOrNull("Images", out var dbContextObject2, out var entityType2);
-                            var newEntity2 = System.Activator.CreateInstance(entityType2);
-                            foreach (string image in images_array)
-                            {
-                                newEntity2.GetType().GetProperty("ImageURL").SetValue(newEntity2, image);
-                                newEntity2.GetType().GetProperty("ProductID").SetValue(newEntity2, new_id);
-                                newEntity2.GetType().GetProperty("ID").SetValue(newEntity2, 0);
-                                if (TryValidateModel(newEntity2))
-                                {
-                                    dbContextObject2.Add(newEntity2);
-                                    dbContextObject2.SaveChanges();
-                                }
-                            }
+                            var appDbContext =
+                                (AppDbContext)HttpContext.RequestServices.GetRequiredService(dbContexts.First().Type);
+                            AddImagesDuringCreation(ProductImages, new_id);
+                            UpdateCategory(appDbContext, Category, Convert.ToString(new_id));
                         }
                     }
 
@@ -167,12 +123,11 @@ namespace DotNetEd.CoreAdmin.Controllers
 
             var dbContext = (AppDbContext)HttpContext.RequestServices.GetRequiredService(dbContexts.First().Type);
             
-            if (entityToEdit is Product product)
+            if (entityToEdit is Product)
             {
-                var productss = dbContext.Products.Include(p => p.Category).FirstOrDefault(p => p.ProductId == int.Parse(id));
+                var productFull = dbContext.Products.Include(p => p.Category).FirstOrDefault(p => p.ProductId == int.Parse(id));
                 ViewBag.Images = dbContext.Images.Where(i => i.ProductID == int.Parse(id)).ToList();
-
-                ViewBag.Category = dbContext.Categories.FirstOrDefault(i => i.Id == product.Category.Id)?.Name ?? "";
+                ViewBag.Category = productFull?.Category is null ? "" : dbContext.Categories.FirstOrDefault(i => i.Id == productFull.Category.Id)?.Name;
             }
 
             return View("Edit", entityToEdit);
@@ -180,52 +135,25 @@ namespace DotNetEd.CoreAdmin.Controllers
 
         [HttpPost]
         [IgnoreAntiforgeryToken]
-        public async Task<IActionResult> EditEntityPost(string dbSetName, string id, [FromForm] object formData, string ProductImages)
+        public async Task<IActionResult> EditEntityPost(string dbSetName, string id, [FromForm] object formData, string ProductImages, string Category)
         {
             var entityToEdit = GetEntityFromDbSet(dbSetName, id, out var dbContextObject, out var entityType);
 
             dbContextObject.Attach(entityToEdit);
-
-
+            
             if (await TryUpdateModelAsync(entityToEdit, entityType, string.Empty))
             {
                 if (TryValidateModel(entityToEdit))
                 {
                     await dbContextObject.SaveChangesAsync();
 
-                    //Delete images
-                    var dbContext = (AppDbContext)HttpContext.RequestServices.GetRequiredService(dbContexts.First().Type);
-                    var images = dbContext.Images.Where(i => i.ProductID == int.Parse(id)).ToList();
-
-                    foreach (var image in images)
-                        dbContext.Remove(image);
-
-                    dbContext.SaveChanges();
-                    //Then add
-                    //Images code
-
-                    if (ProductImages != null)
+                    if (entityType.Name == "Product")
                     {
-                        if (ProductImages.Split(',') != null)
-                        {
-
-                            string[] images_array = ProductImages.Split(',');
-                            var dbSetValue2 = GetDbSetValueOrNull("Images", out var dbContextObject2, out var entityType2);
-                            var newEntity2 = Activator.CreateInstance(entityType2);
-                            foreach (string image in images_array)
-                            {
-                                newEntity2.GetType().GetProperty("ImageURL").SetValue(newEntity2, image);
-                                newEntity2.GetType().GetProperty("ProductID").SetValue(newEntity2, int.Parse(id));
-                                newEntity2.GetType().GetProperty("ID").SetValue(newEntity2, 0);
-                                if (TryValidateModel(newEntity2))
-                                {
-                                    dbContextObject2.Add(newEntity2);
-                                    dbContextObject2.SaveChanges();
-                                }
-                            }
-                        }
+                        var dbContext = (AppDbContext)HttpContext.RequestServices.GetRequiredService(dbContexts.First().Type);
+                        UpdateProductImages(dbContext, ProductImages, id);
+                        UpdateCategory(dbContext, Category, id);
                     }
-                    
+
                     return RedirectToAction("Index", new { id = dbSetName });
                 }
             }
@@ -236,6 +164,7 @@ namespace DotNetEd.CoreAdmin.Controllers
             return View("Edit", entityToEdit);
         }
 
+        
         [HttpGet]
         [IgnoreAntiforgeryToken]
         public IActionResult DeleteEntity(string dbSetName, string id)
@@ -291,5 +220,125 @@ namespace DotNetEd.CoreAdmin.Controllers
             return RedirectToAction("Index", new { Id = viewModel.DbSetName });
         }
 
+        [IgnoreAntiforgeryToken]
+        private object GetDbSetValueOrNull(string dbSetName, out DbContext dbContextObject, out Type typeOfEntity)
+        {
+            foreach (var dbContext in dbContexts)
+            {
+                foreach (var dbSetProperty in dbContext.Type.GetProperties())
+                {
+                    if (dbSetProperty.PropertyType.IsGenericType && dbSetProperty.PropertyType.Name.StartsWith("DbSet") && dbSetProperty.Name.ToLowerInvariant() == dbSetName.ToLowerInvariant())
+                    {
+                        dbContextObject = (DbContext)this.HttpContext.RequestServices.GetRequiredService(dbContext.Type);
+                        typeOfEntity = dbSetProperty.PropertyType.GetGenericArguments()[0];
+                        return dbSetProperty.GetValue(dbContextObject);
+                    }
+                }
+            }
+
+            dbContextObject = null;
+            typeOfEntity = null;
+            return null;
+        }
+
+        [IgnoreAntiforgeryToken]
+        private object GetEntityFromDbSet(string dbSetName, string id, out DbContext dbContextObject, out Type typeOfEntity)
+        {
+            var dbSetValue = GetDbSetValueOrNull(dbSetName, out dbContextObject, out typeOfEntity);
+
+            var primaryKey = dbContextObject.Model.FindEntityType(typeOfEntity).FindPrimaryKey();
+            var clrType = primaryKey.Properties[0].ClrType;
+
+            object convertedPrimaryKey = id;
+            if (clrType == typeof(Guid))
+            {
+                convertedPrimaryKey = Guid.Parse(id);
+            }
+            else if (clrType == typeof(int))
+            {
+                convertedPrimaryKey = int.Parse(id);
+            }
+            else if (clrType == typeof(Int64))
+            {
+                convertedPrimaryKey = Int64.Parse(id);
+            }
+
+            return dbSetValue.GetType().InvokeMember("Find", BindingFlags.InvokeMethod, null, dbSetValue, args: new object[] { convertedPrimaryKey });
+        }
+
+        private void AddImagesDuringCreation(string ProductImages, object new_id)
+        {
+            if (ProductImages != null)
+            {
+                string[] images_array = ProductImages.Split(',');
+
+                var dbSetValue2 = GetDbSetValueOrNull("Images", out var dbContextObject2, out var entityType2);
+                var newEntity2 = System.Activator.CreateInstance(entityType2);
+                foreach (string image in images_array)
+                {
+                    newEntity2.GetType().GetProperty("ImageURL").SetValue(newEntity2, image);
+                    newEntity2.GetType().GetProperty("ProductID").SetValue(newEntity2, new_id);
+                    newEntity2.GetType().GetProperty("ID").SetValue(newEntity2, 0);
+                    if (TryValidateModel(newEntity2))
+                    {
+                        dbContextObject2.Add(newEntity2);
+                        dbContextObject2.SaveChanges();
+                    }
+                }
+            }
+        }
+
+        private void UpdateProductImages(AppDbContext dbContext, string ProductImages, string id)
+        {
+            var images = dbContext.Images.Where(i => i.ProductID == int.Parse(id)).ToList();
+
+            foreach (var image in images)
+                dbContext.Remove(image);
+
+            dbContext.SaveChanges();
+
+            if (ProductImages != null)
+            {
+                if (ProductImages.Split(',') != null)
+                {
+
+                    var images_array = ProductImages.Split(',');
+                    GetDbSetValueOrNull("Images", out var dbContextObject2, out var entityType2);
+                    var newEntity2 = Activator.CreateInstance(entityType2);
+
+                    foreach (string image in images_array)
+                    {
+                        newEntity2.GetType().GetProperty("ImageURL").SetValue(newEntity2, image);
+                        newEntity2.GetType().GetProperty("ProductID").SetValue(newEntity2, int.Parse(id));
+                        newEntity2.GetType().GetProperty("ID").SetValue(newEntity2, 0);
+                        if (TryValidateModel(newEntity2))
+                        {
+                            dbContextObject2.Add(newEntity2);
+                            dbContextObject2.SaveChanges();
+                        }
+                    }
+                }
+            }
+        }
+
+
+        private void UpdateCategory(AppDbContext dbContext, string Category, string id)
+        {
+            var category = dbContext.Categories.FirstOrDefault(c => c.Name == Category);
+            var categoryToUse = category;
+            if (category == null)
+            {
+                var newCategory = new Category
+                {
+                    Name = Category
+                };
+                dbContext.Categories.Add(newCategory);
+                categoryToUse = newCategory;
+            }
+
+            dbContext.Products.FirstOrDefault(p => p.ProductId == Convert.ToInt32(id)).Category =
+                categoryToUse;
+            dbContext.SaveChanges();
+        }
     }
 }

@@ -1,9 +1,18 @@
-﻿@functions{ 
-    
+﻿@functions{
+
+    List<string> propertiesToSkip = new List<string>
+    {
+        "ProductId",
+        "ID",
+        "Id"
+    };
+
     bool ShouldShow(Microsoft.AspNetCore.Mvc.ModelBinding.ModelMetadata metadata)
     {
-        return metadata.ShowForDisplay
-            && !metadata.IsComplexType;
+        if (propertiesToSkip.Contains(metadata.PropertyName))
+            return false;
+
+        return metadata.ShowForDisplay && !metadata.IsComplexType;
     } 
     
 }
