@@ -1,4 +1,5 @@
-﻿@functions{
+﻿@using Microsoft.CodeAnalysis.CSharp.Syntax
+@functions{
 
     List<string> propertiesToSkip = new List<string>
     {
@@ -9,9 +10,6 @@
 
     bool ShouldShow(Microsoft.AspNetCore.Mvc.ModelBinding.ModelMetadata metadata)
     {
-        if (propertiesToSkip.Contains(metadata.PropertyName))
-            return false;
-
         return metadata.ShowForDisplay && !metadata.IsComplexType;
     } 
     
@@ -45,10 +43,19 @@ else
         }
 
         <div class="col-md-10">
+            @if (propertiesToSkip.Contains(prop.Name))
+            {
+                <div class="col-md-10">
+                    <input class="text-box single-line form-control" id="Id" name="Id" type="text" value="@ViewBag.NextId" readonly>
+                </div>
+            }
+            else
+            {
                 @Html.Editor(prop.PropertyName)
+            }
 
-                @Html.ValidationMessage(prop.PropertyName)
-            </div>
+            @Html.ValidationMessage(prop.PropertyName)
+        </div>
     </div>
     }
 }

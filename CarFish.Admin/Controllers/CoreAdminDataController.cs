@@ -79,16 +79,18 @@ namespace DotNetEd.CoreAdmin.Controllers
                     dbContextObject.Add(newEntity);
                     await dbContextObject.SaveChangesAsync();
 
-                    var new_id = newEntity.GetType().GetProperty("ProductId").GetValue(newEntity, null);
-
-                    if (new_id != null) //Product has been added
+                    if (id == "Products")
                     {
-                        if (id == "Products")
+                        var new_id = newEntity.GetType().GetProperty("ProductId").GetValue(newEntity, null);
+
+                        if (new_id != null) //Product has been added
                         {
+
                             var appDbContext =
                                 (AppDbContext)HttpContext.RequestServices.GetRequiredService(dbContexts.First().Type);
                             AddImagesDuringCreation(ProductImages, new_id);
                             UpdateCategory(appDbContext, Category, Convert.ToString(new_id));
+
                         }
                     }
 
@@ -97,7 +99,7 @@ namespace DotNetEd.CoreAdmin.Controllers
             }
 
             ViewBag.DbSetName = id;
-
+            ViewBag.NextId = id;
             return View("Create", newEntity);
         }
 
@@ -108,11 +110,23 @@ namespace DotNetEd.CoreAdmin.Controllers
             var dbSetValue = GetDbSetValueOrNull(id, out var dbContextObject, out var entityType);
 
             var newEntity = System.Activator.CreateInstance(entityType);
+
+            var dbContext = (AppDbContext)HttpContext.RequestServices.GetRequiredService(dbContexts.First().Type);
+
             ViewBag.DbSetName = id;
+            
             if (id == "Products")
             {
-                var dbContext = (AppDbContext)HttpContext.RequestServices.GetRequiredService(dbContexts.First().Type);
                 ViewBag.Categories = dbContext.Categories.Select(x => x.Name).ToList();
+                ViewBag.NextId = dbContext.Products.OrderByDescending(x => x.ProductId).FirstOrDefault().ProductId + 1;
+            }
+            else if (id == "Categories")
+            {
+                ViewBag.NextId = dbContext.Categories.OrderByDescending(x => x.Id).FirstOrDefault().Id + 1;
+            }
+            else if (id == "Images")
+            {
+                ViewBag.NextId = dbContext.Images.OrderByDescending(x => x.ID).FirstOrDefault().ID + 1;
             }
 
             return View(newEntity);
@@ -127,7 +141,8 @@ namespace DotNetEd.CoreAdmin.Controllers
             ViewBag.Id = id;
 
             var dbContext = (AppDbContext)HttpContext.RequestServices.GetRequiredService(dbContexts.First().Type);
-            
+            ViewBag.NextId = Convert.ToInt32(id);
+
             if (entityToEdit is Product)
             {
                 var productFull = dbContext.Products.Include(p => p.Category).FirstOrDefault(p => p.ProductId == int.Parse(id));
