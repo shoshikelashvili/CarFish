@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CarFish.Models;
@@ -27,6 +28,7 @@ namespace CarFish.Controllers
             homePageViewModel.shoppingCartViewModel = new ShoppingCartViewModel();
             homePageViewModel.shoppingCartViewModel.ShoppingCartItems = _shoppingCart.GetShoppingCartItems();
             homePageViewModel.shoppingCartViewModel.ShoppingCartTotal = _shoppingCart.GetShoppingCartTotal();
+            
             return View(homePageViewModel);
         }
 

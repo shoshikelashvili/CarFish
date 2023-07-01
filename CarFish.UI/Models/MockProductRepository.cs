@@ -6,7 +6,7 @@ namespace CarFish.Models
 {
     public class MockProductRepository: IProductRepository
     {
-        public IEnumerable<Product> GetSinglePageProducts(int page = 1)
+        public IEnumerable<Product> GetSinglePageProducts(int page = 1, int category = 0)
         {
             return new List<Product>
             {
@@ -41,7 +41,17 @@ namespace CarFish.Models
             return GetSinglePageProducts().FirstOrDefault(p => p.ProductId == productId);
         }
 
-        public float GetMaximumProductsAmount()
+        public IEnumerable<Category> GetCategories()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Category GetCategoryById(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public float GetMaximumProductsAmount(int category = 0)
         {
             return 2;
         }

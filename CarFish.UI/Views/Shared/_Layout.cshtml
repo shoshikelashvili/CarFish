@@ -1,4 +1,9 @@
-﻿@{ string curYear = DateTime.Now.Year.ToString();}
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@inject IProductRepository _productRepository
+@{
+    var curYear = DateTime.Now.Year.ToString();
+    var categories = _productRepository.GetCategories().Take(5).ToList();
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,7 +45,17 @@
                                 <nav class="main-menu">
                                     <ul class="menu-area-main">
                                         <li> <a asp-action="Index" asp-controller="Home">მთავარი</a> </li>
-                                        <li> <a asp-action="List" asp-controller="Product">პროდუქტები</a> </li>
+                                        <li>
+                                        <div class="dropdown">
+                                            <a asp-action="List" asp-controller="Product" class="dropbtn">პროდუქტები</a>
+                                            <div class="dropdown-content">
+                                                @foreach (var c in categories)
+                                                {
+                                                    <a asp-action="List" asp-controller="Product" asp-route-category="@c.Id">@c.Name</a>
+                                                }
+                                            </div>
+                                        </div>
+                                        </li>
                                         <li><a asp-action="ContactUs" asp-controller="Home">მიტანის პირობები</a></li>
                                         @*<li class="side-menu">
                                             <a id="carty" href="#">

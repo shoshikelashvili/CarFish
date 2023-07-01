@@ -31,15 +31,17 @@ namespace CarFish.Controllers
 
         [HttpGet]
         [Route("Product/List/{page?}")]
-        public IActionResult List(int page = 1)
+        public IActionResult List(int page = 1, int category = 0)
         {
             ListPageViewModel listPageViewModel = new ListPageViewModel();
-            listPageViewModel.products = _productRepository.GetSinglePageProducts(page);
+            listPageViewModel.products = _productRepository.GetSinglePageProducts(page, category);
             listPageViewModel.shoppingCartViewModel = new ShoppingCartViewModel();
             listPageViewModel.shoppingCartViewModel.ShoppingCartItems = _shoppingCart.GetShoppingCartItems();
             listPageViewModel.shoppingCartViewModel.ShoppingCartTotal = _shoppingCart.GetShoppingCartTotal();
             listPageViewModel.page = page;
-            listPageViewModel.maxPages = _productRepository.GetMaximumProductsAmount() / 6;
+            listPageViewModel.maxPages = _productRepository.GetMaximumProductsAmount(category) / 6;
+            if (category != 0)
+                listPageViewModel.category = _productRepository.GetCategoryById(category);
             return View(listPageViewModel);
         }
     }

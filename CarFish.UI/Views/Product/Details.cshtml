@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Details";
+    var categoryName = Model?.product?.Category?.Name ?? "";
+    var categoryId = Model?.product?.Category?.Id ?? 0;
 }
 
 @section Styles
@@ -39,6 +41,7 @@
 <!-- Start Shop Detail  -->
 <div class="shop-detail-box-main">
     <div class="container">
+        <a class="category" style="margin-left:1rem;" asp-action="List" asp-route-category="@categoryId">@categoryName</a>
         <div class="row">
             <div class="col-xl-5 col-lg-5 col-md-6">
                 <div id="carousel-example-1" class="single-product-slider carousel slide" data-ride="carousel">
@@ -71,7 +74,7 @@
                     <h5>₾@Model.product.Price</h5>
                     <p class="available-stock"><span> მარაგში: <a href="#"> @(Model.product.InStock ? "არის" : "არ არის")</a></span>
                     <p>
-                        <h4>აღწერა</h4>
+                    <h4>აღწერა</h4>
                     <p>
                         @Model.product.LongDescription
                     </p>

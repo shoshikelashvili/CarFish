@@ -12,5 +12,6 @@ namespace CarFish.ViewModels
         public int page { get; set; }
 
         public float maxPages { get; set; }
+        public Category? category { get; set; } = null;
     }
 }

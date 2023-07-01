@@ -73,7 +73,7 @@
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                 <div class="img-box">
                                     <a asp-controller="Product" asp-action="Details" asp-route-id="@Model.FeaturedProducts.ElementAt(i).ProductId">
-                                        <figure><img src="@Model.FeaturedProducts.ElementAt(i).ImageThumbnailUrl" alt="img" /></figure>
+                                        <figure><img class="product-image-carousel" src="@Model.FeaturedProducts.ElementAt(i).ImageThumbnailUrl" alt="img" /></figure>
                                     </a>
                                 </div>
                             </div>
