@@ -13,5 +13,7 @@ namespace CarFish.ViewModels
 
         public float maxPages { get; set; }
         public Category? category { get; set; } = null;
+
+        public string orderBy { get; set; }
     }
 }

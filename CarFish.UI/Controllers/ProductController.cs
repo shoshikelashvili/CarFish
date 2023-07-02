@@ -32,10 +32,10 @@ namespace CarFish.Controllers
 
         [HttpGet]
         [Route("Product/List/{page?}")]
-        public IActionResult List(int page = 1, int category = 0)
+        public IActionResult List(int page = 1, int category = 0, string orderBy = "idDesc")
         {
             ListPageViewModel listPageViewModel = new ListPageViewModel();
-            listPageViewModel.products = _productRepository.GetSinglePageProducts(page, category);
+            listPageViewModel.products = _productRepository.GetSinglePageProducts(page, category, orderBy);
             listPageViewModel.shoppingCartViewModel = new ShoppingCartViewModel();
             listPageViewModel.shoppingCartViewModel.ShoppingCartItems = _shoppingCart.GetShoppingCartItems();
             listPageViewModel.shoppingCartViewModel.ShoppingCartTotal = _shoppingCart.GetShoppingCartTotal();
@@ -43,6 +43,8 @@ namespace CarFish.Controllers
             listPageViewModel.maxPages = _productRepository.GetMaximumProductsAmount(category) / 6;
             if (category != 0)
                 listPageViewModel.category = _productRepository.GetCategoryById(category);
+
+            listPageViewModel.orderBy = orderBy;
             return View(listPageViewModel);
         }
 

@@ -6,7 +6,7 @@ namespace CarFish.Models
     public interface IProductRepository
     {
         //IEnumerable<Product> GetSinglePageProducts { get; }
-        IEnumerable<Product> GetSinglePageProducts(int page = 1, int categoryId = 0);
+        IEnumerable<Product> GetSinglePageProducts(int page = 1, int categoryId = 0, string orderBy = null);
         IEnumerable<Product> GetFeaturedProducts { get; }
         IEnumerable<Product> GetRecentProducts { get; }
         Product GetProductById(int productId);

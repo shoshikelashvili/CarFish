@@ -14,18 +14,34 @@ namespace CarFish.Models
             _appDbContext = appDbContext;
         }
 
-        public IEnumerable<Product> GetSinglePageProducts(int page = 1, int categoryId = 0)
+        public IEnumerable<Product> GetSinglePageProducts(int page = 1, int categoryId = 0, string orderBy = null)
         {
-            return categoryId == 0
-                ? _appDbContext.Products.Include(p => p.Category)
-                    .OrderByDescending(p => p.ProductId)
-                    .Skip((page - 1) * 6)
-                    .Take(6)
-                : _appDbContext.Products.Include(p => p.Category)
-                    .Where(p => p.Category.Id == categoryId)
-                    .OrderByDescending(p => p.ProductId)
-                    .Skip((page - 1) * 6)
-                    .Take(6);
+            IQueryable<Product> products = _appDbContext.Products.Include(p => p.Category);
+            if (categoryId != 0)
+                products = products.Where(p => p.Category.Id == categoryId);
+            if (orderBy != null)
+            {
+                switch (orderBy)
+                {
+                    case "priceAsc":
+                        products = products.OrderBy(p => p.Price);
+                        break;
+                    case "priceDesc":
+                        products = products.OrderByDescending(p => p.Price);
+                        break;
+                    case "idAsc":
+                        products = products.OrderBy(p => p.ProductId);
+                        break;
+                    case "idDesc":
+                        products = products.OrderByDescending(p => p.ProductId);
+                        break;
+                    default:
+                        products = products.OrderByDescending(p => p.ProductId);
+                        break;
+                };
+            }
+
+            return products.Skip((page - 1) * 6).Take(6);
         }
 
         public IEnumerable<Product> GetFeaturedProducts

@@ -6,7 +6,7 @@ namespace CarFish.Models
 {
     public class MockProductRepository: IProductRepository
     {
-        public IEnumerable<Product> GetSinglePageProducts(int page = 1, int category = 0)
+        public IEnumerable<Product> GetSinglePageProducts(int page = 1, int category = 0, string orderBy = null)
         {
             return new List<Product>
             {
