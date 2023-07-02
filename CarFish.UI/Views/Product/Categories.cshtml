@@ -1,0 +1,37 @@
+﻿@model List<CarFish.Shared.Models.Category>
+@{
+    ViewData["Title"] = "Categories";
+}
+
+@section Styles
+    {
+    <link rel="stylesheet" href="~/css/details/custom.css">
+}
+@section Scripts
+    {
+    <script src="~/js/details/jquery-3.2.1.min.js"></script>
+}
+<!-- plant -->
+<div id="plant" class="section  product">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="titlepage">
+                    <h2><strong class="black"> ყველა</strong> კატეგორია</h2>
+                    <span>სათევზაო ნივთების და მანქანის პერიფერიის მრავალფეროვანი არჩევანი</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clothes_main section ">
+    <div class="container">
+        <div class="row">
+            @foreach (var category in Model)
+            {
+                <partial name="_CategoryCard" model="category" />
+            }
+        </div>
+    </div>
+</div>
+<!-- end plant -->

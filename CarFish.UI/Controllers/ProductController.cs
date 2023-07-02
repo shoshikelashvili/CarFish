@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using CarFish.Models;
 using CarFish.ViewModels;
 
@@ -43,6 +44,12 @@ namespace CarFish.Controllers
             if (category != 0)
                 listPageViewModel.category = _productRepository.GetCategoryById(category);
             return View(listPageViewModel);
+        }
+
+        [HttpGet]
+        public IActionResult Categories()
+        {
+            return View(_productRepository.GetCategories().ToList());
         }
     }
 }

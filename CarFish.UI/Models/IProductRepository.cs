@@ -13,5 +13,6 @@ namespace CarFish.Models
         IEnumerable<Category> GetCategories();
         Category GetCategoryById(int id);
         public float GetMaximumProductsAmount(int categoryId = 0);
+        int GetProductCountByCategory(int categoryId);
     }
 }

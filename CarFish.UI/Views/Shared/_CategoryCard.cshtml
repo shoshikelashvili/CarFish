@@ -1,0 +1,11 @@
+﻿@model CarFish.Shared.Models.Category
+@inject IProductRepository productRepo
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+    <div class="sport_product">
+        <a class="redirect_section" asp-controller="Product" asp-action="List" asp-route-category="@Model.Id"><figure><img src="@Model.ImageUrl" alt="img" /></figure></a>
+        <h4>@Model.Name (@(productRepo.GetProductCountByCategory(Model.Id)))</h4>
+    </div>
+</div>

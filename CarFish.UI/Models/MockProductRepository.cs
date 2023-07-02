@@ -55,5 +55,10 @@ namespace CarFish.Models
         {
             return 2;
         }
+
+        public int GetProductCountByCategory(int categoryId)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -65,5 +65,10 @@ namespace CarFish.Models
                 ? _appDbContext.Products.Count(p => p.ProductId > 0)
                 : _appDbContext.Products.Count(p => p.ProductId > 0 && p.Category.Id == categoryId);
         }
+
+        public int GetProductCountByCategory(int categoryId)
+        {
+            return _appDbContext.Products.Count(p => p.Category.Id == categoryId);
+        }
     }
 }

@@ -327,14 +327,14 @@ line-height: 38px;}
 
 #main_slider a.carousel-control-prev {
     position: absolute;
-    left: 165px;
+    left: 201px;
     top: 80%;    
     transform: rotateY(180deg);
 }
 
 #main_slider a.carousel-control-next {
     position: absolute;
-    left: 90px;
+    left: 128px;
     top: 80%;
     transform: rotateY(180deg);
 }
