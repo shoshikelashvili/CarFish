@@ -1,7 +1,11 @@
 ﻿@model ListPageViewModel
 @{
     ViewData["Title"] = "List";
+    var currentPage = @Model.page;
+    var maxPages = @Model.maxPages;
+    var hasPreviousPage = currentPage != 1;
 }
+
 @section Styles
 {
     <link rel="stylesheet" href="~/css/details/custom.css">
@@ -41,27 +45,56 @@
                 <partial name="_ProductCard" model="product" />
             }
         </div>
-        <div class="pagination_custom" style="margin-bottom: 3rem;     display: flex">
+        @*<div class="pagination_custom" style="margin-bottom: 3rem;     display: flex">
             @if (Model.page != 1)
             {
-                <a class="btn btn-lg btn-primary" asp-controller="Product" asp-action="List" asp-route-page="@(Model.page - 1)" role="button" id="previous" style=" background-color: #136af8; max-width: 16rem; display: block; margin: auto;
+                <a class="btn btn-lg btn-primary" asp-controller="Product" asp-action="List" asp-route-category="@Model.category?.Id" asp-route-page="@(Model.page - 1)" role="button" id="previous" style=" background-color: #136af8; max-width: 16rem; display: block; margin: auto;
     margin-left: 0;">წინა გვერდი</a>
             }
             @if (Model.maxPages == (int)Model.maxPages)
             {
                 @if (Model.page != Model.maxPages)
                 {
-                    <a class="btn btn-lg btn-primary" asp-controller="Product" asp-action="List" asp-route-page="@(Model.page+1)" role="button" id="next" style="background-color: #136af8; max-width: 16rem; display: block;     margin: auto;
+                    <a class="btn btn-lg btn-primary" asp-controller="Product" asp-action="List" asp-route-category="@Model.category?.Id" asp-route-page="@(Model.page+1)" role="button" id="next" style="background-color: #136af8; max-width: 16rem; display: block;     margin: auto;
     margin-right: 0;">შემდეგი გვერდი</a>
                 }
             }
             else {
                 @if (Model.page < Model.maxPages)
                 {
-                    <a class="btn btn-lg btn-primary" asp-controller="Product" asp-action="List" asp-route-page="@(Model.page + 1)" role="button" id="next" style="background-color: #136af8; max-width: 16rem; display: block;    margin: auto;
+                    <a class="btn btn-lg btn-primary" asp-controller="Product" asp-action="List" asp-route-category="@Model.category?.Id"  asp-route-page="@(Model.page + 1)" role="button" id="next" style="background-color: #136af8; max-width: 16rem; display: block;    margin: auto;
     margin-right: 0;">შემდეგი გვერდი</a>
                 }
             }
+        </div>*@
+        <div class="center">
+            <div class="pagination">
+                @if (hasPreviousPage)
+                {
+                    <a asp-action="List" asp-route-page="@(currentPage - 1)" asp-route-category="@Model.category?.Id">&laquo;</a>
+                }
+                @if(@currentPage - 2 > 0)
+                {
+                    <a asp-action="List" asp-route-page="@(currentPage - 2)" asp-route-category="@Model.category?.Id">@(currentPage - 2)</a>
+                }
+                @if (@currentPage - 1 > 0)
+                {
+                    <a asp-action="List" asp-route-page="@(currentPage - 1)" asp-route-category="@Model.category?.Id">@(currentPage - 1)</a>
+                }
+                <a asp-action="List" asp-route-page="@(currentPage)" class="active" asp-route-category="@Model.category?.Id">@(currentPage)</a>
+                @if (@currentPage + 1 < maxPages)
+                {
+                    <a asp-action="List" asp-route-page="@(currentPage + 1)" asp-route-category="@Model.category?.Id">@(currentPage + 1)</a>
+                }
+                @if (@currentPage + 2 < maxPages)
+                {
+                    <a asp-action="List" asp-route-page="@(currentPage + 2)" asp-route-category="@Model.category?.Id">@(currentPage + 2)</a>
+                }
+                @if (Model.page < (int)Model.maxPages)
+                {
+                    <a asp-action="List" asp-route-page="@(currentPage + 1)" asp-route-category="@Model.category?.Id">&raquo;</a>
+                }
+            </div>
         </div>
     </div>
 </div>

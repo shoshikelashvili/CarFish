@@ -51,7 +51,7 @@
                                             <div class="dropdown-content">
                                                 @foreach (var c in categories)
                                                 {
-                                                    <a asp-action="List" asp-controller="Product" asp-route-category="@c.Id">@c.Name</a>
+                                                    <a asp-action="List" asp-controller="Product" asp-route-page="1" asp-route-category="@c.Id">@c.Name</a>
                                                 }
                                             </div>
                                         </div>
