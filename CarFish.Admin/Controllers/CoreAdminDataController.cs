@@ -118,15 +118,25 @@ namespace DotNetEd.CoreAdmin.Controllers
             if (id == "Products")
             {
                 ViewBag.Categories = dbContext.Categories.Select(x => x.Name).ToList();
-                ViewBag.NextId = dbContext.Products.OrderByDescending(x => x.ProductId).FirstOrDefault().ProductId + 1;
+
+                if (dbContext.Products.Any())
+                    ViewBag.NextId = dbContext.Products.OrderByDescending(x => x.ProductId).FirstOrDefault().ProductId + 1;
+                else
+                    ViewBag.NextId = 1;
             }
             else if (id == "Categories")
             {
-                ViewBag.NextId = dbContext.Categories.OrderByDescending(x => x.Id).FirstOrDefault().Id + 1;
+                if(dbContext.Categories.Any())
+                    ViewBag.NextId = dbContext.Categories.OrderByDescending(x => x.Id).FirstOrDefault().Id + 1;
+                else
+                    ViewBag.NextId = 1;
             }
             else if (id == "Images")
             {
-                ViewBag.NextId = dbContext.Images.OrderByDescending(x => x.ID).FirstOrDefault().ID + 1;
+                if(dbContext.Images.Any())
+                    ViewBag.NextId = dbContext.Images.OrderByDescending(x => x.ID).FirstOrDefault().ID + 1;
+                else
+                    ViewBag.NextId = 1;
             }
 
             return View(newEntity);

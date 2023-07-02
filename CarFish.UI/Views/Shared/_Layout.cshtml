@@ -122,12 +122,45 @@
 
     <!-- end Contact Us-->
     <!-- footer start-->
-    <div id="plant" class="footer layout_padding">
-        <div class="container">
-            <p>© @curYear ყველა უფლება დაცულია</p>
-        </div>
+<div id="plant" class="footer layout_padding">
+    <div class="container">
+        <p>© @curYear ყველა უფლება დაცულია</p>
     </div>
-    @RenderSection("Scripts", required: false)
-    <script src="~/js/navbar/customNavbar.js"></script>
+</div>
+
+<!-- Messenger Chat plugin Code -->
+<div id="fb-root"></div>
+
+<!-- Your Chat plugin code -->
+<div id="fb-customer-chat" class="fb-customerchat">
+</div>
+
+<script>
+      var chatbox = document.getElementById('fb-customer-chat');
+      chatbox.setAttribute("page_id", "103673841601429");
+      chatbox.setAttribute("attribution", "biz_inbox");
+    </script>
+
+<!-- Your SDK code -->
+
+
+@RenderSection("Scripts", required: false)
+<script src="~/js/navbar/customNavbar.js"></script>
+<script>
+    window.fbAsyncInit = function () {
+        FB.init({
+            xfbml: true,
+            version: 'v17.0'
+        });
+    };
+
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
 </body>
 </html>
