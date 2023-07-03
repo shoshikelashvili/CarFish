@@ -7,6 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Datalex\Data\" />
+    <Folder Include="Areas\Datalex\Models\" />
+    <Folder Include="Areas\Datalex\Views\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
 

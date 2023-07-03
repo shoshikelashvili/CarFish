@@ -3,11 +3,21 @@
 @{
     var curYear = DateTime.Now.Year.ToString();
     var categories = _productRepository.GetCategories().Where(c => c.ShowInHomePage).ToList();
+    var isDatalex = false;
+    if (ViewBag.Datalex != null)
+        isDatalex = true;
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>@ViewData["Title"] - CarFish</title>
+    @if (isDatalex)
+    {
+        <title>@ViewData["Title"] - Datalex</title>
+    }
+    else
+    {
+        <title>@ViewData["Title"] - CarFish</title>
+    }
     <!-- basic -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,12 +28,26 @@
     <!-- bootstrap css -->
     <link rel="stylesheet" href="~/css/bootstrap.min.css">
     <!-- style css -->
-    <link rel="stylesheet" href="~/css/style.css">
+    @if (isDatalex)
+    {
+        <link rel="stylesheet" href="~/css/style-datalex.css">
+    }
+    else
+    {
+        <link rel="stylesheet" href="~/css/style.css">
+    }
     <!-- Responsive-->
     <link rel="stylesheet" href="~/css/responsive.css">
     @RenderSection("Styles", false)
     <link rel="stylesheet" href="~/css/custom.css">
-    <link rel="icon" type="image/x-icon" href="~/favicon.ico">
+    @if (isDatalex)
+    {
+        <link rel="icon" type="image/x-icon" href="~/favicon_datalex.png">
+    }
+    else
+    {
+        <link rel="icon" type="image/x-icon" href="~/favicon.ico">
+    }
 </head>
 <body class="main-layout">
     <!-- header -->
@@ -35,7 +59,18 @@
                     <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
                         <div class="full">
                             <div class="center-desk">
-                                <div class="logo"> <a asp-action="Index" asp-controller="Home"><img src="~/img/logo.png" alt="#"></a> </div>
+                                <div class="logo@(isDatalex ? "datalex" : "")">
+                                    <a asp-action="Index" asp-controller="Home">
+                                        @if (isDatalex)
+                                        {
+                                            <img src="~/img/logo_datalex.png" alt="#">
+                                        }
+                                        else
+                                        {
+                                            <img src="~/img/logo.png" alt="#">
+                                        }
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -90,19 +125,46 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-12 col-lg-4">
                         <div class="site_info">
-                            <span class="info_icon"><img src="~/img/map-icon.png" /></span>
+                            <span class="info_icon">
+                                @if (isDatalex)
+                                {
+                                    <img src="~/img/map-icon_datalex.png"/>
+                                }
+                                else
+                                {
+                                    <img src="~/img/map-icon.png" />
+                                }
+                            </span>
                             <span style="margin-top: 14px;font-size: 1.2rem;">მოსკოვის გამზირი</span>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-12 col-lg-4">
                         <div class="site_info">
-                            <span class="info_icon"><img src="~/img/phone-icon.png" /></span>
+                            <span class="info_icon">
+                                @if (isDatalex)
+                                {
+                                    <img src="~/img/phone-icon_datalex.png" />
+                                }
+                                else
+                                {
+                                    <img src="~/img/phone-icon.png"/>
+                                }
+                            </span>
                             <span style="margin-top: 14px;font-size: 1.2rem;">555 186 000</span>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-12 col-lg-4">
                         <div class="site_info">
-                            <span class="info_icon"><img src="~/img/email-icon.png" /></span>
+                            <span class="info_icon">
+                                @if (isDatalex)
+                                {
+                                    <img src="~/img/email-icon_datalex.png"/>
+                                }
+                                else
+                                {
+                                    <img src="~/img/email-icon.png"/>
+                                }
+                            </span>
                             <span style="margin-top: 14px;font-size: 1.2rem">carfishstore@gmail.com</span>
                         </div>
                     </div>

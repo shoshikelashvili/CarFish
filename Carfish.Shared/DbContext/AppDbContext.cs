@@ -1,4 +1,5 @@
 ﻿using CarFish.Shared.Models;
+using CarFish.Shared.Models.Datalex;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,12 @@ namespace CarFish.Shared.DbContext
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
+
+        //This is not good implementation
+        public DbSet<ImagesDatalex> ImagesD { get; set; }
+        public DbSet<ProductDatalex> ProductsD { get; set; }
+        public DbSet<CategoryDatalex> CategoriesD { get; set; }
+        public DbSet<ShoppingCartItemDatalex> ShoppingCartItemsD { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

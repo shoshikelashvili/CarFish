@@ -165,22 +165,41 @@
     display: inline-block;
 }
 
-    .pagination a {
-        color: black;
-        float: left;
-        padding: 8px 16px;
-        text-decoration: none;
-        transition: background-color .3s;
-        border: 1px solid #ddd;
-        margin: 0 4px;
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    margin: 0 4px;
+}
+
+.pagination a.active {
+    background-color: #007bff;
+    color: white;
+    border: 1px solid #4CAF50;
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+}
+
+/*---------------------------------------- Datalex -------------------------------*/
+.logodatalex {
+    float: left;
+    position: relative;
+    max-width: 80%;
+}
+
+@media (max-width: 575px) {
+    .logodatalex {
+        float: inherit;
+        padding-bottom: 15px;
+        text-align: center;
+        width: 55%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
     }
-
-        .pagination a.active {
-            background-color: #007bff;
-            color: white;
-            border: 1px solid #4CAF50;
-        }
-
-        .pagination a:hover:not(.active) {
-            background-color: #ddd;
-        }
+}

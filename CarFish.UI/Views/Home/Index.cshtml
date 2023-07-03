@@ -1,6 +1,9 @@
 ﻿@model HomePageViewModel
 @{
     ViewData["Title"] = "Home";
+    var isDatalex = false;
+    if (ViewBag.Datalex != null)
+        isDatalex = true;
 }
 @section Styles
 {
@@ -112,7 +115,7 @@
             }
         </div>
     </div>
-    <a class="btn btn-lg btn-primary" asp-controller="Product" asp-action="List" role="button" id="products_link" style="margin: auto; background-color: #136af8; max-width: 16rem; display: block;">პროდუქტების გვერდი</a>
+    <a class="btn btn-lg btn-primary" asp-controller="Product" asp-action="List" role="button" id="products_link" style="margin: auto; background-color: @(isDatalex ? "#6667ab" : "#136af8"); max-width: 16rem; display: block;">პროდუქტების გვერდი</a>
 </div>
 <!-- end plant -->
 
@@ -133,7 +136,14 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="soc_text">
-                    <img src="~/img/logo.png" alt="#">
+                    @if (isDatalex)
+                    {
+                        <img src="~/img/logo_datalex.png" alt="#" style="max-width: 85%; !important">
+                    }
+                    else
+                    {
+                        <img src="~/img/logo.png" alt="#">
+                    }
                 </div>
             </div>
             <div class="col-md-6">
@@ -152,7 +162,7 @@
                             <input type="text" class="form-control form-control-sm" placeholder="მესიჯი" name="Message" style=" color: #000000;">
                         </div>
                         <div class="submit_btn">
-                            <button type="submit" class="btn btn-primary" style="background: #081b30; color: #fff; padding: 11px;">გაგზავნა</button>
+                            <button type="submit" class="btn btn-primary" style="background: @(isDatalex ? "#46467f" : "#081b30"); color: #fff; padding: 11px;">გაგზავნა</button>
                         </div>
                     </form>
                 </div>
