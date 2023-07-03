@@ -1,6 +1,9 @@
 ﻿@{
     ViewBag.Title = "404";
     Layout = "";
+    var isDatalex = false;
+    if (ViewBag.Datalex != null)
+        isDatalex = true;
 }
 
 <!-- purple x moss 2020 -->
@@ -21,8 +24,8 @@
 <!-- Custom CSS -->
 <link rel="stylesheet" href="~/css/details/custom.css">
 
-<body style="background-color: #136af8; ">
-    <div class="mainbox" style="height: 100vh; background-color: #136af8;">
+<body style="background-color: @(isDatalex ? "#6667ab" : "#136af8"); ">
+    <div class="mainbox" style="height: 100vh; background-color: @(isDatalex ? "#6667ab" : "#136af8");">
         <div class="err">4</div>
         <i class="far fa-question-circle fa-spin"></i>
         <div class="err2">4</div>

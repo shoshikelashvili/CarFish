@@ -1,5 +1,8 @@
 ﻿@{
     ViewData["Title"] = "MessageSent";
+    var isDatalex = false;
+    if (ViewBag.Datalex != null)
+        isDatalex = true;
 }
 
 @section Styles
@@ -9,7 +12,16 @@
     <!-- Responsive CSS -->
     <link rel="stylesheet" href="~/css/details/responsive.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="~/css/details/custom.css">
+    
+    @if (isDatalex)
+    {
+        <link rel="stylesheet" href="~/css/details/custom-datalex.css">
+
+    }
+    else
+    {
+        <link rel="stylesheet" href="~/css/details/custom.css">
+    }
 
     <!-- Leaflet bullshit-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"

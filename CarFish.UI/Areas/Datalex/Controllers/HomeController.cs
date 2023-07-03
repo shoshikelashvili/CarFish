@@ -36,20 +36,22 @@ namespace CarFish.UI.Areas.Datalex.Controllers
 
         public IActionResult ContactUs()
         {
-            return View();
+            ViewBag.Datalex = true;
+            return View("~/Views/Home/ContactUs.cshtml");
         }
 
         public async Task<IActionResult> SendMail([FromForm]MailRequest request)
         {
+            ViewBag.Datalex = true;
             try
             {
                 await _mailService.SendEmailAsync(request);
-                return View();
+                return View("~/Views/Home/SendMail.cshtml");
             }
             catch(Exception ex)
             {
                 ViewBag.Exception = ex;
-                return View("Problem");
+                return View("~/Views/Home/Error.cshtml");
             }
             
         }
@@ -58,14 +60,14 @@ namespace CarFish.UI.Areas.Datalex.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            ViewBag.Datalex = true;
+            return View("~/Views/Home/Error.cshtml", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-
-        [Route("404")]
         public IActionResult PageNotFound()
         {
-            return View();
+            ViewBag.Datalex = true;
+            return View("~/Views/Home/PageNotFound.cshtml");
         }
     }
 }
