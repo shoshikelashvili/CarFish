@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using CarFish.Shared.Models
 @inject ProductRepository _productRepository
 @{
     var curYear = DateTime.Now.Year.ToString();
@@ -7,6 +8,16 @@
     if (ViewBag.Datalex != null)
         isDatalex = true;
 
+    if (isDatalex)
+    {
+        categories = _productRepository.GetCategoriesDatalex().Where(c => c.ShowInHomePage).Select(x => new Category()
+        {
+            ImageUrl = x.ImageUrl,
+            Id = x.Id,
+            Name = x.Name,
+            ShowInHomePage = x.ShowInHomePage
+        }).ToList();
+    }
     var location = isDatalex? "წერეთელი, ვარკეთილი" : "მოსკოვის გამზირი";
     var mobileNumber = isDatalex ? "595 334 826 " : "555 186 000";
     var contactUs = isDatalex ? "ადგილმდგებარეობა" : "მიტანის პირობები";

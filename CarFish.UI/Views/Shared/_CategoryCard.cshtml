@@ -1,5 +1,14 @@
 ﻿@model CarFish.Shared.Models.Category
 @inject ProductRepository productRepo
+@{
+    var count = productRepo.GetProductCountByCategory(Model.Id);
+    var isDatalex = false;
+    if (ViewBag.Datalex != null)
+    {
+        isDatalex = true;
+        count = productRepo.GetProductCountByCategoryDatalex(Model.Id);
+    }
+}
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
