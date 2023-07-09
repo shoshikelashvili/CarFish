@@ -2,6 +2,7 @@
 using System.Linq;
 using CarFish.Shared.DbContext;
 using CarFish.Shared.Models;
+using CarFish.Shared.Models.Datalex;
 
 namespace CarFish.Models
 {
@@ -15,6 +16,11 @@ namespace CarFish.Models
         public IEnumerable<Images> GetImagesByProductId(int productId)
         {
             return _appDbContext.Images.Where(i => i.ProductID == productId);
+        }
+
+        public IEnumerable<ImagesDatalex> GetImagesByProductIdDatalex(int productId)
+        {
+            return _appDbContext.ImagesD.Where(i => i.ProductID == productId);
         }
     }
 }

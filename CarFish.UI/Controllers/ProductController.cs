@@ -7,11 +7,11 @@ namespace CarFish.Controllers
 {
     public class ProductController: Controller
     {
-        private readonly IProductRepository _productRepository;
-        private readonly IImagesRepository _imagesRepository;
+        private readonly ProductRepository _productRepository;
+        private readonly ImagesRepository _imagesRepository;
         private readonly ShoppingCart _shoppingCart;
 
-        public ProductController(IProductRepository productRepository, IImagesRepository imagesRepository, ShoppingCart shoppingCart)
+        public ProductController(ProductRepository productRepository, ImagesRepository imagesRepository, ShoppingCart shoppingCart)
         {
             _productRepository = productRepository;
             _imagesRepository = imagesRepository;

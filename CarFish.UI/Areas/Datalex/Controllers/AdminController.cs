@@ -17,10 +17,14 @@ namespace CarFish.UI.Areas.Datalex.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
-        
+
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Index() => View("Login");
+        public IActionResult Index()
+        {
+            ViewBag.Datalex = true;
+            return View("~/Views/Admin/Login.cshtml");
+        }
 
         [HttpPost]
         [AllowAnonymous]
@@ -29,10 +33,12 @@ namespace CarFish.UI.Areas.Datalex.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByNameAsync(model.Name);
+                ViewBag.Datalex = true;
+
                 if (await _userManager.CheckPasswordAsync(user, model.Password) == false)
                 {
                     ModelState.AddModelError("message", "Invalid credentials");
-                    return View("Login");
+                    return View("~/Views/Admin/Login.cshtml");
                 }
 
                 var result = await _signInManager.PasswordSignInAsync(model.Name, model.Password, true, false);
@@ -47,7 +53,7 @@ namespace CarFish.UI.Areas.Datalex.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home", new { area = "" });
+            return RedirectToAction("Index", "Home", new { area = "Datalex" });
         }
     }
 }

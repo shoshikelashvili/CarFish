@@ -32,8 +32,8 @@ namespace CarFish
             
             services.AddDbContext<AppDbContext>(options => options.UseMySQL(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("CarFish.UI")));
             services.AddCoreAdmin("Administrator");
-            services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped<IImagesRepository, ImagesRepository>();
+            services.AddScoped<ProductRepository>();
+            services.AddScoped<ImagesRepository>();
             services.AddScoped(ShoppingCart.GetCart);
             services.AddControllersWithViews();
 

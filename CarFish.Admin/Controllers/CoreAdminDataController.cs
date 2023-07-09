@@ -9,17 +9,26 @@ using System.Reflection;
 using System.Threading.Tasks;
 using CarFish.Shared.DbContext;
 using CarFish.Shared.Models;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using CarFish.Shared.Models.Datalex;
 
 namespace DotNetEd.CoreAdmin.Controllers
 {
     [CoreAdminAuth]
     public class CoreAdminDataController : Controller
     {
+        private readonly IHttpContextAccessor _contextAccessor;
         private readonly IEnumerable<DiscoveredDbContextType> dbContexts;
+        private bool isDatalex = false;
 
-        public CoreAdminDataController(IEnumerable<DiscoveredDbContextType> dbContexts)
+        public CoreAdminDataController(IEnumerable<DiscoveredDbContextType> dbContexts, IHttpContextAccessor httpContextAccessor)
         {
             this.dbContexts = dbContexts;
+            _contextAccessor = httpContextAccessor;
+            var loggedinUser = _contextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value;
+            if (loggedinUser != "greenback")
+                isDatalex = true;
         }
 
         [HttpGet]
@@ -55,6 +64,21 @@ namespace DotNetEd.CoreAdmin.Controllers
 
                             dbSetValue = products;
                         }
+                        if (id == "ProductsD")
+                        {
+                            var appDbContext = (AppDbContext)HttpContext.RequestServices.GetRequiredService(dbContexts.First().Type);
+                            var products = appDbContext.ProductsD.Include(p => p.Category);
+                            foreach (var p in products)
+                            {
+                                if (p.ShortDescription.Length > 30)
+                                {
+                                    p.ShortDescription = p.ShortDescription.Substring(0, 30);
+                                    p.ShortDescription += "...";
+                                }
+                            }
+
+                            dbSetValue = products;
+                        }
                         viewModel.Data = (IEnumerable<object>)dbSetValue;
                         viewModel.DbContext = dbContextObject;
                     }
@@ -79,7 +103,7 @@ namespace DotNetEd.CoreAdmin.Controllers
                     dbContextObject.Add(newEntity);
                     await dbContextObject.SaveChangesAsync();
 
-                    if (id == "Products")
+                    if (dbSetName == "Products")
                     {
                         var new_id = newEntity.GetType().GetProperty("ProductId").GetValue(newEntity, null);
 
@@ -88,9 +112,22 @@ namespace DotNetEd.CoreAdmin.Controllers
 
                             var appDbContext =
                                 (AppDbContext)HttpContext.RequestServices.GetRequiredService(dbContexts.First().Type);
-                            AddImagesDuringCreation(ProductImages, new_id);
+                            AddImagesDuringCreation(ProductImages, new_id, false);
                             UpdateCategory(appDbContext, Category, Convert.ToString(new_id));
 
+                        }
+                    }
+                    if (dbSetName == "ProductsD")
+                    {
+                        var new_id = newEntity.GetType().GetProperty("ProductId").GetValue(newEntity, null);
+
+                        if (new_id != null) //Product has been added
+                        {
+
+                            var appDbContext =
+                                (AppDbContext)HttpContext.RequestServices.GetRequiredService(dbContexts.First().Type);
+                            AddImagesDuringCreation(ProductImages, new_id, true);
+                            UpdateCategory(appDbContext, Category, Convert.ToString(new_id), true);
                         }
                     }
 
@@ -138,6 +175,29 @@ namespace DotNetEd.CoreAdmin.Controllers
                 else
                     ViewBag.NextId = 1;
             }
+            else if (id == "ProductsD")
+            {
+                ViewBag.Categories = dbContext.CategoriesD.Select(x => x.Name).ToList();
+
+                if (dbContext.ProductsD.Any())
+                    ViewBag.NextId = dbContext.ProductsD.OrderByDescending(x => x.ProductId).FirstOrDefault().ProductId + 1;
+                else
+                    ViewBag.NextId = 1;
+            }
+            else if (id == "CategoriesD")
+            {
+                if (dbContext.CategoriesD.Any())
+                    ViewBag.NextId = dbContext.CategoriesD.OrderByDescending(x => x.Id).FirstOrDefault().Id + 1;
+                else
+                    ViewBag.NextId = 1;
+            }
+            else if (id == "ImagesD")
+            {
+                if (dbContext.ImagesD.Any())
+                    ViewBag.NextId = dbContext.ImagesD.OrderByDescending(x => x.ID).FirstOrDefault().ID + 1;
+                else
+                    ViewBag.NextId = 1;
+            }
 
             return View(newEntity);
         }
@@ -159,6 +219,13 @@ namespace DotNetEd.CoreAdmin.Controllers
                 ViewBag.Images = dbContext.Images.Where(i => i.ProductID == int.Parse(id)).ToList();
                 ViewBag.Category = productFull?.Category is null ? "" : dbContext.Categories.FirstOrDefault(i => i.Id == productFull.Category.Id)?.Name;
                 ViewBag.Categories = dbContext.Categories.Select(x => x.Name).ToList();
+            }
+            if (entityToEdit is ProductDatalex)
+            {
+                var productFull = dbContext.ProductsD.Include(p => p.Category).FirstOrDefault(p => p.ProductId == int.Parse(id));
+                ViewBag.Images = dbContext.ImagesD.Where(i => i.ProductID == int.Parse(id)).ToList();
+                ViewBag.Category = productFull?.Category is null ? "" : dbContext.CategoriesD.FirstOrDefault(i => i.Id == productFull.Category.Id)?.Name;
+                ViewBag.Categories = dbContext.CategoriesD.Select(x => x.Name).ToList();
             }
 
             return View("Edit", entityToEdit);
@@ -183,6 +250,12 @@ namespace DotNetEd.CoreAdmin.Controllers
                         var dbContext = (AppDbContext)HttpContext.RequestServices.GetRequiredService(dbContexts.First().Type);
                         UpdateProductImages(dbContext, ProductImages, id);
                         UpdateCategory(dbContext, Category, id);
+                    }
+                    if (entityType.Name == "ProductDatalex")
+                    {
+                        var dbContext = (AppDbContext)HttpContext.RequestServices.GetRequiredService(dbContexts.First().Type);
+                        UpdateProductImages(dbContext, ProductImages, id, true);
+                        UpdateCategory(dbContext, Category, id, true);
                     }
 
                     return RedirectToAction("Index", new { id = dbSetName });
@@ -297,13 +370,20 @@ namespace DotNetEd.CoreAdmin.Controllers
             return dbSetValue.GetType().InvokeMember("Find", BindingFlags.InvokeMethod, null, dbSetValue, args: new object[] { convertedPrimaryKey });
         }
 
-        private void AddImagesDuringCreation(string ProductImages, object new_id)
+        private void AddImagesDuringCreation(string ProductImages, object new_id, bool isDatalex)
         {
             if (ProductImages != null)
             {
                 string[] images_array = ProductImages.Split(',');
 
                 var dbSetValue2 = GetDbSetValueOrNull("Images", out var dbContextObject2, out var entityType2);
+                if (isDatalex)
+                {
+                    dbSetValue2 = GetDbSetValueOrNull("ImagesD", out var dbContextObject3, out var entityType3);
+                    dbContextObject2 = dbContextObject3;
+                    entityType2 = entityType3;
+                }
+
                 var newEntity2 = System.Activator.CreateInstance(entityType2);
                 foreach (string image in images_array)
                 {
@@ -319,33 +399,68 @@ namespace DotNetEd.CoreAdmin.Controllers
             }
         }
 
-        private void UpdateProductImages(AppDbContext dbContext, string ProductImages, string id)
+        private void UpdateProductImages(AppDbContext dbContext, string ProductImages, string id, bool isDatalex = false)
         {
-            var images = dbContext.Images.Where(i => i.ProductID == int.Parse(id)).ToList();
-
-            foreach (var image in images)
-                dbContext.Remove(image);
-
-            dbContext.SaveChanges();
-
-            if (ProductImages != null)
+            if (isDatalex)
             {
-                if (ProductImages.Split(',') != null)
+                var images = dbContext.ImagesD.Where(i => i.ProductID == int.Parse(id)).ToList();
+
+                foreach (var image in images)
+                    dbContext.Remove(image);
+
+                dbContext.SaveChanges();
+
+                if (ProductImages != null)
                 {
-
-                    var images_array = ProductImages.Split(',');
-                    GetDbSetValueOrNull("Images", out var dbContextObject2, out var entityType2);
-                    var newEntity2 = Activator.CreateInstance(entityType2);
-
-                    foreach (string image in images_array)
+                    if (ProductImages.Split(',') != null)
                     {
-                        newEntity2.GetType().GetProperty("ImageURL").SetValue(newEntity2, image);
-                        newEntity2.GetType().GetProperty("ProductID").SetValue(newEntity2, int.Parse(id));
-                        newEntity2.GetType().GetProperty("ID").SetValue(newEntity2, 0);
-                        if (TryValidateModel(newEntity2))
+
+                        var images_array = ProductImages.Split(',');
+                        GetDbSetValueOrNull("ImagesD", out var dbContextObject2, out var entityType2);
+                        var newEntity2 = Activator.CreateInstance(entityType2);
+
+                        foreach (string image in images_array)
                         {
-                            dbContextObject2.Add(newEntity2);
-                            dbContextObject2.SaveChanges();
+                            newEntity2.GetType().GetProperty("ImageURL").SetValue(newEntity2, image);
+                            newEntity2.GetType().GetProperty("ProductID").SetValue(newEntity2, int.Parse(id));
+                            newEntity2.GetType().GetProperty("ID").SetValue(newEntity2, 0);
+                            if (TryValidateModel(newEntity2))
+                            {
+                                dbContextObject2.Add(newEntity2);
+                                dbContextObject2.SaveChanges();
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                var images = dbContext.Images.Where(i => i.ProductID == int.Parse(id)).ToList();
+
+                foreach (var image in images)
+                    dbContext.Remove(image);
+
+                dbContext.SaveChanges();
+
+                if (ProductImages != null)
+                {
+                    if (ProductImages.Split(',') != null)
+                    {
+
+                        var images_array = ProductImages.Split(',');
+                        GetDbSetValueOrNull("Images", out var dbContextObject2, out var entityType2);
+                        var newEntity2 = Activator.CreateInstance(entityType2);
+
+                        foreach (string image in images_array)
+                        {
+                            newEntity2.GetType().GetProperty("ImageURL").SetValue(newEntity2, image);
+                            newEntity2.GetType().GetProperty("ProductID").SetValue(newEntity2, int.Parse(id));
+                            newEntity2.GetType().GetProperty("ID").SetValue(newEntity2, 0);
+                            if (TryValidateModel(newEntity2))
+                            {
+                                dbContextObject2.Add(newEntity2);
+                                dbContextObject2.SaveChanges();
+                            }
                         }
                     }
                 }
@@ -353,23 +468,43 @@ namespace DotNetEd.CoreAdmin.Controllers
         }
 
 
-        private void UpdateCategory(AppDbContext dbContext, string Category, string id)
+        private void UpdateCategory(AppDbContext dbContext, string Category, string id, bool isDatalex = false)
         {
-            var category = dbContext.Categories.FirstOrDefault(c => c.Name == Category);
-            var categoryToUse = category;
-            if (category == null)
+            if (isDatalex)
             {
-                var newCategory = new Category
+                var category = dbContext.CategoriesD.FirstOrDefault(c => c.Name == Category);
+                var categoryToUse = category;
+                if (category == null)
                 {
-                    Name = Category
-                };
-                dbContext.Categories.Add(newCategory);
-                categoryToUse = newCategory;
-            }
+                    var newCategory = new CategoryDatalex()
+                    {
+                        Name = Category
+                    };
+                    dbContext.CategoriesD.Add(newCategory);
+                    categoryToUse = newCategory;
+                }
 
-            dbContext.Products.FirstOrDefault(p => p.ProductId == Convert.ToInt32(id)).Category =
-                categoryToUse;
-            dbContext.SaveChanges();
+                dbContext.ProductsD.FirstOrDefault(p => p.ProductId == Convert.ToInt32(id)).Category = categoryToUse;
+                dbContext.SaveChanges();
+            }
+            else
+            {
+                var category = dbContext.Categories.FirstOrDefault(c => c.Name == Category);
+                var categoryToUse = category;
+                if (category == null)
+                {
+                    var newCategory = new Category
+                    {
+                        Name = Category
+                    };
+                    dbContext.Categories.Add(newCategory);
+                    categoryToUse = newCategory;
+                }
+
+                dbContext.Products.FirstOrDefault(p => p.ProductId == Convert.ToInt32(id)).Category =
+                    categoryToUse;
+                dbContext.SaveChanges();
+            }
         }
     }
 }

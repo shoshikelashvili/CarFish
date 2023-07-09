@@ -10,10 +10,10 @@ namespace CarFish.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IProductRepository _productRepository;
+        private readonly ProductRepository _productRepository;
         private readonly ShoppingCart _shoppingCart;
         private readonly IMailService _mailService;
-        public HomeController(IProductRepository productRepository, ShoppingCart shoppingCart, IMailService mailService)
+        public HomeController(ProductRepository productRepository, ShoppingCart shoppingCart, IMailService mailService)
         {
             _productRepository = productRepository;
             _shoppingCart = shoppingCart;

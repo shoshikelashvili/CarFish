@@ -1,6 +1,7 @@
 ﻿@using NonFactors.Mvc.Grid
 @using System.Linq.Expressions
 @using CarFish.Shared.Models
+@using CarFish.Shared.Models.Datalex
 @using Microsoft.EntityFrameworkCore
 @model DotNetEd.CoreAdmin.ViewModels.DataListViewModel
 
@@ -30,7 +31,7 @@
 
         foreach(var entityProperty in Model.EntityType.GetProperties())
         {
-            if (entityProperty.DeclaringType?.Name == "Product")
+            if (entityProperty.DeclaringType?.Name == "Product" || entityProperty.DeclaringType?.Name == "ProductDatalex")
             {
                 if (columnsToSkip.Contains(entityProperty.Name))
                     continue;
@@ -47,6 +48,17 @@
                 var inner = Expression.Property(changedType, categoryProperty);
                 var outer = Expression.Property(inner, categoryNameProperty);
                 
+                var lambda = Expression.Lambda<Func<object, string>>(outer, entity);
+
+                columns.Add(lambda).Titled(entityProperty.Name);
+            }
+            if (entityProperty.PropertyType == typeof(CategoryDatalex))
+            {
+                var categoryProperty = typeof(ProductDatalex).GetProperty("Category");
+                var categoryNameProperty = categoryProperty.PropertyType.GetProperty("Name");
+                var inner = Expression.Property(changedType, categoryProperty);
+                var outer = Expression.Property(inner, categoryNameProperty);
+
                 var lambda = Expression.Lambda<Func<object, string>>(outer, entity);
 
                 columns.Add(lambda).Titled(entityProperty.Name);

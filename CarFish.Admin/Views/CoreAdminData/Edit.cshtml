@@ -14,7 +14,7 @@
 
     @Html.EditorForModel("DefaultEntity")
 
-    @if(ViewBag.DbSetName == "Products")
+    @if (ViewBag.DbSetName == "Products" || ViewBag.DbSetName == "ProductsD")
     {
         var category = ViewBag.Category;
 

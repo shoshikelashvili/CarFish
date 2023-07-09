@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
-@inject IProductRepository _productRepository
+@inject ProductRepository _productRepository
 @{
     var curYear = DateTime.Now.Year.ToString();
     var categories = _productRepository.GetCategories().Where(c => c.ShowInHomePage).ToList();
