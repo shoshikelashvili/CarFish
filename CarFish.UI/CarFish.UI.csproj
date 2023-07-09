@@ -7,12 +7,21 @@
     <OutputType>Exe</OutputType>
     <StartupObject>CarFish.Program</StartupObject>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Remove="web.config" />
+  </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Areas\Datalex\Data\" />
     <Folder Include="Areas\Datalex\Models\" />
     <Folder Include="Areas\Datalex\Views\" />
     <Folder Include="wwwroot\img\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="web.config">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
