@@ -4,6 +4,8 @@
 	  <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
 	  <AspNetCoreModuleName>AspNetCoreModule</AspNetCoreModuleName>
     <UserSecretsId>bc3f6134-d1bb-4969-8904-9358c052a0d7</UserSecretsId>
+    <OutputType>Exe</OutputType>
+    <StartupObject>CarFish.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

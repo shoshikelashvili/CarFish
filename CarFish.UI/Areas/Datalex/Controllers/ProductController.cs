@@ -5,6 +5,7 @@ using CarFish.ViewModels;
 
 namespace CarFish.UI.Areas.Datalex.Controllers
 {
+    [Area("Datalex")]
     public class ProductController: Controller
     {
         private readonly IProductRepository _productRepository;
@@ -20,6 +21,8 @@ namespace CarFish.UI.Areas.Datalex.Controllers
         
         public IActionResult Details(int id)
         {
+            //this should be moved to a controller action filter
+            ViewBag.Datalex = true;
             DetailsPageViewModel detailsPageViewModel = new DetailsPageViewModel();
             detailsPageViewModel.product = _productRepository.GetProductById(id);
             detailsPageViewModel.images = _imagesRepository.GetImagesByProductId(id);
@@ -27,13 +30,14 @@ namespace CarFish.UI.Areas.Datalex.Controllers
             detailsPageViewModel.shoppingCartViewModel.ShoppingCartItems = _shoppingCart.GetShoppingCartItems();
             detailsPageViewModel.shoppingCartViewModel.ShoppingCartTotal = _shoppingCart.GetShoppingCartTotal();
             if (detailsPageViewModel.product == null) return NotFound();
-            return View(detailsPageViewModel);
+            return View("~/Views/Product/Details.cshtml", detailsPageViewModel);
         }
 
         [HttpGet]
-        [Route("Product/List/{page?}")]
+        [Route("Datalex/Product/List/{page?}")]
         public IActionResult List(int page = 1, int category = 0, string orderBy = "idDesc")
         {
+            ViewBag.Datalex = true;
             ListPageViewModel listPageViewModel = new ListPageViewModel();
             listPageViewModel.products = _productRepository.GetSinglePageProducts(page, category, orderBy);
             listPageViewModel.shoppingCartViewModel = new ShoppingCartViewModel();
@@ -45,13 +49,14 @@ namespace CarFish.UI.Areas.Datalex.Controllers
                 listPageViewModel.category = _productRepository.GetCategoryById(category);
 
             listPageViewModel.orderBy = orderBy;
-            return View(listPageViewModel);
+            return View("~/Views/Product/List.cshtml", listPageViewModel);
         }
 
         [HttpGet]
         public IActionResult Categories()
         {
-            return View(_productRepository.GetCategories().ToList());
+            ViewBag.Datalex = true;
+            return View("~/Views/Product/Categories.cshtml", _productRepository.GetCategories().ToList());
         }
     }
 }

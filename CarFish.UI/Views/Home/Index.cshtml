@@ -115,7 +115,7 @@
             }
         </div>
     </div>
-    <a class="btn btn-lg btn-primary" asp-area="@(isDatalex ? "Datalex" : "")" asp-controller="Product" asp-action="List" role="button" id="products_link" style="margin: auto; background-color: @(isDatalex ? "#6667ab" : "#136af8"); max-width: 16rem; display: block;">პროდუქტების გვერდი</a>
+    <a class="btn btn-lg btn-primary" href="@(isDatalex ? "/Datalex" : "")/Product/List" role="button" id="products_link" style="margin: auto; background-color: @(isDatalex ? "#6667ab" : "#136af8"); max-width: 16rem; display: block;">პროდუქტების გვერდი</a>
 </div>
 <!-- end plant -->
 

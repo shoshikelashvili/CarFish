@@ -6,6 +6,7 @@ using CarFish.Models;
 
 namespace CarFish.UI.Areas.Datalex.Controllers
 {
+    [Area("Datalex")]
     public class AdminController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;

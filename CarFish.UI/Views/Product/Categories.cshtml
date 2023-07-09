@@ -1,14 +1,26 @@
 ﻿@model List<CarFish.Shared.Models.Category>
 @{
     ViewData["Title"] = "Categories";
+    var isDatalex = false;
+    if (ViewBag.Datalex != null)
+        isDatalex = true;
+
+
 }
 
 @section Styles
+{
+    @if (isDatalex)
     {
-    <link rel="stylesheet" href="~/css/details/custom.css">
+        <link rel="stylesheet" href="~/css/details/custom-datalex.css">
+    }
+    else
+    {
+        <link rel="stylesheet" href="~/css/details/custom.css">
+    }
 }
 @section Scripts
-    {
+{
     <script src="~/js/details/jquery-3.2.1.min.js"></script>
 }
 <!-- plant -->

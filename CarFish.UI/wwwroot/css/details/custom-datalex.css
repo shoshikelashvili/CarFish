@@ -45,3 +45,17 @@
     .side.on {
         right: 0;
     }
+
+.cart-and-bay-btn a {
+    background: #6667ab !important;
+}
+.single-product-details h5 {
+    color: #6667ab !important;
+}
+.available-stock span a {
+    color: #6667ab !important;
+}
+
+.pagination a.active {
+    background-color: #6667ab !important;
+}

@@ -6,6 +6,10 @@
     var isDatalex = false;
     if (ViewBag.Datalex != null)
         isDatalex = true;
+
+    var location = isDatalex? "წერეთელი, ვარკეთილი" : "მოსკოვის გამზირი";
+    var mobileNumber = isDatalex ? "595 334 826 " : "555 186 000";
+    var contactUs = isDatalex ? "ადგილმდგებარეობა" : "მიტანის პირობები";
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -82,17 +86,18 @@
                                         <li> <a asp-action="Index" asp-controller="Home">მთავარი</a> </li>
                                         <li>
                                             <div class="dropdown">
-                                                <a asp-action="List" asp-area="@(isDatalex ? "Datalex" : "")"  asp-controller="Product" class="dropbtn">პროდუქტები</a>
+                                                <a href="@(isDatalex ? "/Datalex" : "")/Product/List" class="dropbtn">პროდუქტები</a>
                                                 <div class="dropdown-content">
                                                     @foreach (var c in categories)
                                                     {
-                                                        <a asp-action="List" asp-area="@(isDatalex ? "Datalex" : "")" asp-controller="Product" asp-route-page="1" asp-route-category="@c.Id">@c.Name</a>
+
+                                                        <a href="@(isDatalex ? "/Datalex" : "")/Product/List/1?category=@c.Id">@c.Name</a>
                                                     }
                                                 </div>
                                             </div>
                                         </li>
                                         <li> <a asp-action="Categories" asp-controller="Product">კატეგორიები</a> </li>
-                                        <li><a asp-action="ContactUs" asp-controller="Home">მიტანის პირობები</a></li>
+                                        <li><a asp-action="ContactUs" asp-controller="Home">@contactUs</a></li>
                                         @*<li class="side-menu">
                                             <a id="carty" href="#">
                                                 <img style="max-width:9%" src="~/img/shopping-cart.png">
@@ -135,7 +140,7 @@
                                     <img src="~/img/map-icon.png" />
                                 }
                             </span>
-                            <span style="margin-top: 14px;font-size: 1.2rem;">მოსკოვის გამზირი</span>
+                            <span style="margin-top: 14px;font-size: 1.2rem;">@location</span>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-12 col-lg-4">
@@ -150,7 +155,7 @@
                                     <img src="~/img/phone-icon.png"/>
                                 }
                             </span>
-                            <span style="margin-top: 14px;font-size: 1.2rem;">555 186 000</span>
+                            <span style="margin-top: 14px;font-size: 1.2rem;">@mobileNumber</span>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-12 col-lg-4">
@@ -174,9 +179,9 @@
         <div class="menu_main">
             <div class="menu_text">
                 <ul>
-                    <li><a asp-action="List" asp-controller="Product" asp-area="@(isDatalex ? "Datalex" : "")">პროდუქტები</a></li>
+                    <li><a href="@(isDatalex ? "/Datalex" : "")/Product/List">პროდუქტები</a></li>
                     <li> <a asp-action="Categories" asp-controller="Product">კატეგორიები</a> </li>
-                    <li><a asp-action="ContactUs" asp-controller="Home">მიტანის პირობები</a></li>
+                    <li><a asp-action="ContactUs" asp-controller="Home">@contactUs</a></li>
                 </ul>
             </div>
         </div>
@@ -208,21 +213,24 @@
 
 @RenderSection("Scripts", required: false)
 <script src="~/js/navbar/customNavbar.js"></script>
-<script>
-    window.fbAsyncInit = function () {
-        FB.init({
-            xfbml: true,
-            version: 'v17.0'
-        });
-    };
+@if (!isDatalex)
+{
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                xfbml: true,
+                version: 'v17.0'
+            });
+        };
 
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-</script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+}
 </body>
 </html>

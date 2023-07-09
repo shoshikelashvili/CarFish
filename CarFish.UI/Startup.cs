@@ -90,7 +90,7 @@ namespace CarFish
             {
                 endpoints.MapControllerRoute(
                     name: "areaRoute",
-                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                    pattern: "{area}/{controller=Home}/{action=Index}/{id?}"
                 );
 
                 endpoints.MapControllerRoute(

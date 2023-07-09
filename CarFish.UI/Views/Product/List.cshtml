@@ -4,11 +4,21 @@
     var currentPage = @Model.page;
     var maxPages = @Model.maxPages;
     var hasPreviousPage = currentPage != 1;
+    var isDatalex = false;
+    if (ViewBag.Datalex != null)
+        isDatalex = true;
 }
 
 @section Styles
 {
-    <link rel="stylesheet" href="~/css/details/custom.css">
+    @if (isDatalex)
+    {
+        <link rel="stylesheet" href="~/css/details/custom-datalex.css">
+    }
+    else
+    {
+        <link rel="stylesheet" href="~/css/details/custom.css">
+    }
 }
 @section Scripts
 {
@@ -42,10 +52,10 @@
         <div class="sorting" style="text-align: right;">
             დახარისხება:
             <select onChange="window.location.replace(this.value)">
-                <!option value="/Product/List/1?orderBy=priceAsc&category=@Model.category?.Id" @(Model.orderBy == "priceAsc" ? "selected" : "")>ფასის ზრდადობით</!option>
-                <!option value="/Product/List/1?orderBy=priceDesc&category=@Model.category?.Id" @(Model.orderBy == "priceDesc" ? "selected" : "")>ფასის კლებადობით</!option>
-                <!option value="/Product/List/1?orderBy=idDesc&category=@Model.category?.Id" @(Model.orderBy == "idDesc" ? "selected" : "") >ახალი დამატებულები </!option>
-                <!option value="/Product/List/1?orderBy=idAsc&category=@Model.category?.Id" @(Model.orderBy == "idAsc" ? "selected" : "")>ძველი დამატებულები</!option>
+                <!option value="@(isDatalex ? "/Datalex" : "")/Product/List/1?orderBy=priceAsc&category=@Model.category?.Id" @(Model.orderBy == "priceAsc" ? "selected" : "")>ფასის ზრდადობით</!option>
+                <!option value="@(isDatalex ? "/Datalex" : "")/Product/List/1?orderBy=priceDesc&category=@Model.category?.Id" @(Model.orderBy == "priceDesc" ? "selected" : "")>ფასის კლებადობით</!option>
+                <!option value="@(isDatalex ? "/Datalex" : "")/Product/List/1?orderBy=idDesc&category=@Model.category?.Id" @(Model.orderBy == "idDesc" ? "selected" : "") >ახალი დამატებულები </!option>
+                <!option value="@(isDatalex ? "/Datalex" : "")/Product/List/1?orderBy=idAsc&category=@Model.category?.Id" @(Model.orderBy == "idAsc" ? "selected" : "")>ძველი დამატებულები</!option>
             </select>
         </div>
         <div class="row">
@@ -69,7 +79,7 @@
                     <a asp-action="List" asp-route-page="@(currentPage - 1)" asp-route-category="@Model.category?.Id" asp-route-orderBy="@Model.orderBy">@(currentPage - 1)</a>
                 }
                 <a asp-action="List" asp-route-page="@(currentPage)" class="active" asp-route-category="@Model.category?.Id" asp-route-orderBy="@Model.orderBy">@(currentPage)</a>
-                @if (@currentPage  <= (int)maxPages)
+                @if (@currentPage  < (int)maxPages)
                 {
                     <a asp-action="List" asp-route-page="@(currentPage + 1)" asp-route-category="@Model.category?.Id" asp-route-orderBy="@Model.orderBy">@(currentPage + 1)</a>
                 }

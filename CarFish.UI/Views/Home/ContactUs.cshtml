@@ -52,27 +52,60 @@
     <script src="~/js/details/form-validator.min.js"></script>
     <script src="~/js/details/contact-form-script.js"></script>
     <script src="~/js/details/custom.js"></script>
-    <script src="~/js/leaflet/initial.js"></script>
+    @if (isDatalex)
+    {
+        <script src="~/js/leaflet/initial-datalex.js"></script>
+    }
+    else
+    {
+        <script src="~/js/leaflet/initial.js"></script>
+    }
 }
 <div id="plant" class="contact_us layout_padding">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 ">
-                <div class="titlepage" style="padding-top: 0rem;">
-                    <h2 style="text-align: center; margin-top: 15px;">მიტანის <strong style="color: #111315;">პირობები</strong></h2>
-                    <span style="text-align: left;">CarFish-ით პროდუქტის შეძენისას შეგიძლიათ ისარგებლოთ ჩვენი მიტანის სერვისით, რომელიც თბილისის მასშტაბით 5 ლარი დაგიჯდებათ.<br> <br> ალტერნატიულად, შეგიძლიათ მოგვაკითხოთ პირდაპირ ოფისში და თავად აიღოთ პროდუქტი.</span>
+    @if (isDatalex)
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 ">
+                    <div class="titlepage" style="padding-top: 0rem;">
+                        <h2 style="text-align: center; margin-top: 15px;">ფილიალების <strong style="color: #111315;">მისამართი</strong></h2>
+                        <span style="text-align: center; font-size: 1.4rem !important;">წერეთლის 1. სავაჭრო ცენტრი “პანდა”. მაღაზია 75.<br> 595 334 821 <br> <br> მეტრო ვარკეთილის თავზე. სავაჭრო ცენტრი “ფენიქსი” მესამე სართული მაღაზია 17.<br> 595 334 826</span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="map_container" style=" width: 80vw; margin: auto; margin-bottom: 2rem;">
-        <div class="row">
-            <div class="col-md-12 ">
-                <div class="titlepage" style="padding-top: 0rem;">
-                    <h2 style="text-align: center; margin-top: 15px;">ადგილმდებარეობა <strong style="color: #111315;">რუკაზე</strong></h2>
+        <div class="map_container" style=" width: 80vw; margin: auto; margin-bottom: 2rem;">
+            <div class="row">
+                <div class="col-md-12 ">
+                    <div class="titlepage" style="padding-top: 0rem;">
+                        <h2 style="text-align: center; margin-top: 15px;">ადგილმდებარეობა <strong style="color: #111315;">რუკაზე</strong></h2>
+                    </div>
+                </div>
+            </div>
+            <div id="mapiddatalex" style="height: 80vh"></div>
+        </div>
+    }
+    else
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 ">
+                    <div class="titlepage" style="padding-top: 0rem;">
+                        <h2 style="text-align: center; margin-top: 15px;">მიტანის <strong style="color: #111315;">პირობები</strong></h2>
+                        <span style="text-align: left;">CarFish-ით პროდუქტის შეძენისას შეგიძლიათ ისარგებლოთ ჩვენი მიტანის სერვისით, რომელიც თბილისის მასშტაბით 5 ლარი დაგიჯდებათ.<br> <br> ალტერნატიულად, შეგიძლიათ მოგვაკითხოთ პირდაპირ ოფისში და თავად აიღოთ პროდუქტი.</span>
+                    </div>
                 </div>
             </div>
         </div>
-        <div id="mapid" style="height: 80vh"></div>
-    </div>
+        <div class="map_container" style=" width: 80vw; margin: auto; margin-bottom: 2rem;">
+            <div class="row">
+                <div class="col-md-12 ">
+                    <div class="titlepage" style="padding-top: 0rem;">
+                        <h2 style="text-align: center; margin-top: 15px;">ადგილმდებარეობა <strong style="color: #111315;">რუკაზე</strong></h2>
+                    </div>
+                </div>
+            </div>
+            <div id="mapid" style="height: 80vh"></div>
+        </div>
+    }
 </div>

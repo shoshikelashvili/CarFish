@@ -1,7 +1,12 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Features
+@{
     ViewBag.Title = "404";
     Layout = "";
     var isDatalex = false;
+    var testUrl = ViewContext.HttpContext.Features.Get<IHttpRequestFeature>().RawTarget;
+    if (testUrl.Contains("datalex") || testUrl.Contains("Datalex"))
+        isDatalex = true;
     if (ViewBag.Datalex != null)
         isDatalex = true;
 }
@@ -32,5 +37,5 @@
 
     </div>
     <div class="msg" style=" font-family: Mtavruli;    color: white;
-    font-size: 4rem;">მოთხოვნილი გვერდი ვერ მოიძებნა <p style=" font-size: 2rem;">დაბრუნდი <a asp-controller="Home" asp-action="Index">მთავარ</a> გვერდზე</p></div>
+    font-size: 4rem;">მოთხოვნილი გვერდი ვერ მოიძებნა <p style=" font-size: 2rem;">დაბრუნდი <a asp-controller="Home" asp-action="Index" asp-area="@(isDatalex ? "Datalex" : "")">მთავარ</a> გვერდზე</p></div>
 </body>

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 namespace CarFish.UI.Areas.Datalex.Controllers
 {
+    [Area("Datalex")]
     public class ShoppingCartController: Controller
     {
         private readonly IProductRepository _productRepository;
