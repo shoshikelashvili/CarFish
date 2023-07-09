@@ -15,6 +15,6 @@
 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
     <div class="sport_product">
         <a class="redirect_section" asp-controller="Product" asp-action="List" asp-route-category="@Model.Id"><figure><img src="@Model.ImageUrl" alt="img" /></figure></a>
-        <h4>@Model.Name (@(productRepo.GetProductCountByCategory(Model.Id)))</h4>
+        <h4>@Model.Name (@count)</h4>
     </div>
 </div>
